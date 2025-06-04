@@ -1,0 +1,2773 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Super Mario Run - Play Online & Earn Money</title>
+  <meta name="description" content="Play Super Mario Run online and earn real money. Classic Mario gameplay on browser. No download needed!" />
+  <meta name="keywords" content="Super Mario Run, Mario game, Earn money playing, Play Super Mario online, Free Mario Run game, Super Mario browser game" />
+  <meta name="author" content="Zalix Games" />
+  <meta property="og:title" content="Play Super Mario Run – Earn While You Play!" />
+  <meta property="og:description" content="Enjoy classic Mario Run online and earn rewards while having fun!" />
+  <meta property="og:image" content="https://supermariorun.site/assets/preview.png" />
+  <meta property="og:url" content="https://supermariorun.site" />
+  <meta property="og:type" content="website" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#3761bd" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mario Run" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./20250517_001646.png" />
+
+  <!-- Existing Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <!-- SEO: Structured Data for Video Game -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Super Mario Run - Play Online & Earn Money",
+    "url": "https://supermariorun.site",
+    "description": "Play Super Mario Run online and earn real money. Classic Mario gameplay on browser. No download needed!",
+    "applicationCategory": "Game",
+    "operatingSystem": "Web browser",
+    "browserRequirements": "Requires HTML5 Canvas and JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "genre": ["Arcade game", "Platform game", "Endless runner"],
+    "playMode": "SinglePlayer",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Zalix Games"
+    },
+    "image": "https://supermariorun.site/assets/preview.png",
+    "keywords": "Super Mario Run, Mario game, Earn money playing, Play Super Mario online, Free Mario Run game, Super Mario browser game"
+  }
+  </script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      /* Add custom Tailwind classes here if needed */
+    }
+  </style>
+
+  <!-- Ad Script 1 (Placeholder) -->
+  <style>
+    /* --- CSS Styles --- */
+    /* Basic Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Press Start 2P', cursive; overflow: hidden;
+      background: #050505 url('https://www.transparenttextures.com/patterns/stardust.png'); /* Darker background */
+      color: #e0e0e0; /* Slightly off-white text */
+      margin-bottom: 50px; /* Space for banner */
+    }
+    canvas { display: block; background-color: #60a5fa; /* Brighter sky blue */ }
+    .text-glow { text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 12px #ff38a1, 0 0 16px #ff38a1; } /* Enhanced Pink Glow */
+    .box-glow { box-shadow: 0 0 6px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 56, 161, 0.6); } /* Enhanced Pink Glow */
+
+    /* --- Enhanced General Button Styles --- */
+    .game-btn {
+      padding: 14px 28px; /* Slightly larger padding */
+      margin: 10px;
+      font-size: 14px; /* Keep font size readable */
+      border: none;
+      border-radius: 10px; /* Slightly more rounded */
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease; /* Faster transform */
+      background: linear-gradient(145deg, #ff5252, #e53935); /* Base Red Gradient */
+      color: #ffffff; /* Pure white text */
+      font-family: 'Press Start 2P', cursive;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 3px rgba(0,0,0,0.8); /* Sharper text shadow */
+      border-bottom: 5px solid #b71c1c; /* Darker, thicker bottom border */
+      box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.3; /* Adjusted line-height */
+      text-decoration: none;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .game-btn:hover:not(:disabled) {
+      transform: translateY(-3px) scale(1.04); /* More pronounced hover effect */
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 18px rgba(255, 82, 82, 0.7); /* Enhanced shadow + red glow */
+      background: linear-gradient(145deg, #ff6161, #ef5350); /* Slightly brighter hover gradient */
+    }
+    .game-btn:active:not(:disabled) {
+         transform: translateY(1px) scale(1.01); /* Subtle press effect */
+         border-bottom-width: 3px; /* Reduce border on press */
+         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* Reduced shadow on press */
+    }
+    .game-btn:disabled {
+        background: linear-gradient(145deg, #666, #444); /* Dark grey gradient */
+        cursor: not-allowed;
+        border-bottom-color: #222; /* Very dark border */
+        box-shadow: none; transform: none; opacity: 0.6; /* More faded */
+        color: #aaa; /* Grey text */
+        text-shadow: none;
+    }
+
+    /* --- Google Sign-in Panel Styles --- */
+    #googleSignInPanel {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: url('https://i.imgur.com/nxRZ03R.png') no-repeat center center;
+        background-size: cover; background-color: rgba(0, 0, 0, 0.75); /* Slightly darker overlay */
+        background-blend-mode: darken; z-index: 100; display: none;
+        flex-direction: column; justify-content: center; align-items: center;
+        color: #fff; padding: 20px; text-align: center;
+    }
+     #googleSignInPanel h2 {
+        font-size: 2.8em; /* Slightly larger */
+        color: #ff38a1; /* Consistent pink */
+        margin-bottom: 35px;
+        text-shadow: 4px 4px 0px #000, 0 0 18px #ff38a1, 0 0 25px #ff38a1; /* Enhanced text shadow */
+    }
+    #googleSignInBtn {
+        background: linear-gradient(145deg, #4f8ef7, #3678e6); /* Brighter Google blue */
+        border-bottom-color: #1a5ac4;
+        color: white; width: 300px; /* Slightly wider */
+        padding: 16px 28px; /* More padding */
+        font-size: 16px;
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+    #googleSignInBtn img { width: 26px; height: 26px; margin-right: 18px; background-color: white; padding: 3px; border-radius: 3px; }
+    #googleSignInBtn:hover:not(:disabled) {
+        background-image: linear-gradient(145deg, #5a95f8, #4185f4);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(66, 133, 244, 0.7); /* Blue glow on hover */
+    }
+     #guestButtonAlt {
+        background: linear-gradient(145deg, #95a5a6, #7f8c8d); /* Muted grey/blue */
+        border-bottom-color: #525e5f;
+        width: 300px; margin-top: 15px;
+     }
+     #guestButtonAlt:hover:not(:disabled) {
+         background-image: linear-gradient(145deg, #aab5b6, #95a5a6);
+         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(149, 165, 166, 0.6); /* Grey glow */
+     }
+
+    /* --- Main Menu --- */
+    #mainMenu {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://i.imgur.com/KFWJlte.png') no-repeat center center; background-size: cover;
+      background-color: rgba(10, 10, 10, 0.6); background-blend-mode: darken; /* Add subtle overlay */
+      z-index: 30; display: none; flex-direction: column; justify-content: center; align-items: center;
+      color: #fff; padding: 20px; text-align: center; padding-top: 90px; /* Adjusted padding */
+    }
+    /* --- Adjusted Coin & PKR Counter Display --- */
+    #topRightStatus {
+      position: absolute; top: 15px; right: 15px;
+      background: rgba(0,0,0,0.88); /* Darker, less transparent */
+      padding: 4px 8px; /* Further Adjusted Padding: Smaller */
+      border-radius: 10px; /* Match button radius */
+      font-size: 12px; /* Adjusted Font Size: Smaller text */
+      color: #e0e0e0; /* Text color */
+      z-index: 35;
+      border: 2px solid #b8860b; /* Darker gold border */
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.6), inset 0 0 5px rgba(0,0,0,0.5); /* Gold glow + inner shadow */
+      display: none; /* Handled by JS */
+      align-items: center;
+      cursor: pointer; /* Make it clickable */
+      transition: transform 0.1s ease, box-shadow 0.2s ease;
+      /* Changed to inline-flex to better wrap content */
+       display: inline-flex; /* Use inline-flex to make it compact */
+       flex-direction: column; /* Stack elements vertically */
+    }
+     #topRightStatus:hover {
+         transform: translateY(-2px) scale(1.02);
+         box-shadow: 0 0 15px rgba(255, 215, 0, 0.8), inset 0 0 5px rgba(0,0,0,0.5);
+     }
+    #topRightStatus .status-group {
+         display: flex;
+         align-items: center;
+         margin: 1px 0; /* Even Smaller vertical spacing */
+         padding: 0 2px; /* Add some horizontal padding */
+    }
+    #topRightStatus .status-group img {
+      width: 14px; /* Further Adjusted Image Size: Smaller icon */
+      height: 14px; /* Further Adjusted Image Size: Smaller icon */
+      margin-right: 3px; /* Adjusted Margin: Less space */
+      vertical-align: middle;
+      filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.8));
+    }
+     #topRightStatus .status-group span {
+         font-weight: bold;
+         font-size: 1em; /* Keep font size consistent */
+     }
+     #topRightStatus .coin-value { color: #FFD700; } /* Gold for Coins */
+     #topRightStatus .pkr-value { color: #4caf50; } /* Green for PKR */
+
+    /* --- End Adjusted Coin Counter Display --- */
+    #settingsBtn {
+      position: absolute; top: 15px; left: 15px; background: rgba(30,30,30,0.85); /* Slightly less dark */
+      border: 2px solid #bbb;
+      border-radius: 50%; cursor: pointer; z-index: 35; width: 50px; height: 50px; /* Slightly larger */
+      display: none;
+      justify-content: center; align-items: center; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    #settingsBtn svg { width: 26px; height: 26px; fill: #ddd; }
+    #settingsBtn:hover {
+        transform: rotate(60deg) scale(1.12); /* Faster rotation, larger scale */
+        box-shadow: 0 0 18px rgba(255,255,255,0.8); /* Brighter glow */
+        border-color: #fff;
+    }
+    #mainMenu .menu-btn { width: 250px; margin-bottom: 18px; } /* Wider buttons, more spacing */
+    /* Specific Main Menu Button Colors */
+    #mainMenu #startBtn { background: linear-gradient(145deg, #ff5252, #e53935); border-bottom-color: #b71c1c; } /* Base Red */
+    #mainMenu #startBtn:hover:not(:disabled) { background: linear-gradient(145deg, #ff6161, #ef5350); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 18px rgba(255, 82, 82, 0.7); }
+
+    #mainMenu #withdrawBtn { background: linear-gradient(145deg, #4caf50, #388e3c); border-bottom-color: #1b5e20; display: none; } /* Positive Green */
+    #mainMenu #withdrawBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #66bb6a, #43a047); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.7); } /* Green glow */
+
+    #mainMenu #inviteFriend { background: linear-gradient(145deg, #2196f3, #1976d2); border-bottom-color: #0d47a1; display: none; } /* Action Blue */
+    #mainMenu #inviteFriend:hover:not(:disabled) { background-image: linear-gradient(145deg, #42a5f5, #1e88e5); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(33, 150, 243, 0.7); } /* Blue glow */
+
+    #mainMenu #infoBtn { background: linear-gradient(145deg, #ffc107, #ffa000); border-bottom-color: #ff6f00; } /* Info Yellow/Amber */
+    #mainMenu #infoBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #ffca28, #ffb300); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 193, 7, 0.7); } /* Yellow glow */
+
+    #mainMenu #logoutBtn { background: linear-gradient(145deg, #9e9e9e, #757575); border-bottom-color: #424242; display: none; } /* Neutral Grey */
+    #mainMenu #logoutBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #bdbdbd, #9e9e9e); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(158, 158, 158, 0.6); } /* Grey glow */
+
+    /* REMOVED #downloadApkLink styles */
+
+    /* --- WhatsApp Button Styles --- */
+    .whatsapp-btn {
+       position: fixed;
+       bottom: 65px; /* Adjust based on banner height + padding */
+       right: 20px;
+       z-index: 900; /* High z-index */
+       width: 60px; /* Slightly larger */
+       height: 60px;
+       background-color: #25D366; /* WhatsApp Green */
+       border-radius: 50%; /* Circular shape */
+       display: flex; /* Center the image */
+       justify-content: center;
+       align-items: center;
+       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4), 0 0 15px rgba(37, 211, 102, 0.6); /* Shadow and green glow */
+       cursor: pointer;
+       transition: transform 0.2s ease, box-shadow 0.2s ease;
+       text-decoration: none; /* Remove underline */
+       border: 3px solid #128C7E; /* Darker green border */
+       padding: 5px; /* Padding inside for the image */
+    }
+    .whatsapp-btn img {
+        width: 100%; /* Make image fill the button */
+        height: 100%;
+        object-fit: contain; /* Ensure image is scaled correctly */
+         border-radius: 50%; /* Make image circular */
+    }
+    .whatsapp-btn:hover {
+       transform: scale(1.15); /* Grow slightly on hover */
+       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(37, 211, 102, 0.8); /* More pronounced shadow/glow */
+    }
+     .whatsapp-btn:active {
+         transform: scale(1.05); /* Shrink slightly on click */
+         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+     }
+     /* Hide initially */
+     .whatsapp-btn {
+         display: none;
+     }
+
+     /* --- Spin Button Styles (Tailwind takes over most) --- */
+    #spinBtn {
+       position: fixed;
+       bottom: 65px; /* Align with WhatsApp */
+       right: 90px; /* Position next to WhatsApp */
+       z-index: 900; /* High z-index */
+       width: 60px;
+       height: 60px;
+       border-radius: 50%; /* Circular */
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       cursor: pointer;
+       transition: transform 0.2s ease, box-shadow 0.2s ease;
+       text-decoration: none;
+       border: 3px solid rgba(255,255,255,0.5); /* Subtle border */
+       padding: 5px;
+       /* Tailwind classes will handle background, shadow, hover */
+    }
+    #spinBtn img {
+        width: 100%; height: 100%; object-fit: contain; border-radius: 50%;
+    }
+     #spinBtn:hover {
+       transform: scale(1.15);
+     }
+      #spinBtn:active {
+         transform: scale(1.05);
+     }
+      /* Hide initially */
+     #spinBtn {
+         display: none;
+     }
+
+
+    /* --- Game Over Menu --- */
+    #gameOverMenu {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.88); /* Darker overlay */
+      z-index: 40; display: none; flex-direction: column; justify-content: center; align-items: center;
+      color: #f44336; /* Consistent Error Red */
+      padding: 20px; text-align: center;
+    }
+    #gameOverMenu h2 {
+        font-size: 4.5em; /* Larger text */
+        text-shadow: 5px 5px 0px #000, 0 0 25px #ff0000, 0 0 35px #ff0000; /* More intense shadow/glow */
+        margin-bottom: 25px;
+    }
+    #gameOverMenu p {
+        font-size: 1.8em; /* Larger score text */
+        color: #fff;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px #000; /* Sharper shadow */
+    }
+    #gameOverMenu .menu-btn { width: 220px; } /* Standard button size */
+    #gameOverMenu #restartBtn {
+        background: linear-gradient(145deg, #4caf50, #388e3c); /* Positive Green */
+        border-bottom-color: #1b5e20;
+    }
+    #gameOverMenu #restartBtn:hover:not(:disabled) {
+        background-image: linear-gradient(145deg, #66bb6a, #43a047);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.7); /* Green glow */
+    }
+    #gameOverMenu #backMenuBtn {
+        background: linear-gradient(145deg, #2196f3, #1976d2); /* Action Blue */
+        border-bottom-color: #0d47a1;
+    }
+    #gameOverMenu #backMenuBtn:hover:not(:disabled) {
+        background-image: linear-gradient(145deg, #42a5f5, #1e88e5);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(33, 150, 243, 0.7); /* Blue glow */
+    }
+
+    /* --- Modal Common Styles (Tailwind for overlay/container, custom for content details) --- */
+    /* Modal overlay - uses Tailwind */
+    .modal { /* Added styles for modal overlay */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75); /* Dark overlay */
+      display: none; /* Hidden by default, controlled by JS */
+      align-items: center;
+      justify-content: center;
+      z-index: 50; /* Ensure it's above main menu/game */
+      padding: 20px;
+      overflow-y: auto; /* Allow scrolling if content overflows */
+    }
+
+    .modal-content {
+        position: relative; /* For close button positioning */
+        background: #212121; /* Darker modal background */
+        padding: 25px 30px; /* More padding */
+        border-radius: 12px; /* Rounded corners */
+        width: 90%; color: #eee; text-align: center; font-family: 'Press Start 2P', cursive;
+        border: 4px solid #ff38a1; /* Thicker Pink border */
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 56, 161, 0.5), inset 0 0 10px rgba(0,0,0,0.4); /* Outer shadow + Pink glow + Inner shadow */
+        max-height: 85vh; /* Restricted height */
+        overflow-y: auto; /* Allow content scrolling */
+         /* max-width handled by specific modal sizes */
+    }
+    .modal h2 {
+        margin-bottom: 25px; /* More space */
+        font-size: 1.5em; /* Larger title */
+        color: #ff38a1; /* Consistent Pink */
+        text-shadow: 2px 2px 2px #000, 0 0 8px #ff38a1; /* Sharper shadow + glow */
+    }
+    .modal button.game-btn { width: 100%; margin: 10px 0; padding: 12px 20px; font-size: 13px; } /* Adjusted modal button size */
+    .modal input[type="text"], .modal input[type="email"], .modal input[type="password"] {
+        width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 18px; /* Adjusted spacing */
+        border: 2px solid #555; border-radius: 8px; /* Rounded input */
+        background: #333; color: #fff; font-family: 'Arial', sans-serif; font-size: 16px; outline: none;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .modal input:focus { border-color: #ff38a1; box-shadow: 0 0 10px rgba(255, 56, 161, 0.7); } /* Pink focus glow */
+    .close-btn {
+        position: absolute; top: 8px; right: 12px; /* Adjusted position */
+        background: none; border: none; font-size: 32px; /* Larger close icon */
+        cursor: pointer; color: #aaa; font-family: Arial, sans-serif;
+        transition: color 0.2s, transform 0.2s; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        z-index: 10; /* Ensure close button is clickable */
+    }
+    .close-btn:hover { color: #ff38a1; transform: scale(1.25) rotate(90deg); } /* Rotate on hover */
+
+    /* --- Specific Modal Sizes --- */
+    #settingsModal .modal-content { max-width: 340px; }
+    #profileModal .modal-content { max-width: 400px; text-align: left; }
+    #inviteModal .modal-content { max-width: 380px; }
+    #withdrawModal .modal-content { max-width: 400px; }
+    #infoModal .modal-content { max-width: 400px; }
+    #withdrawalHistoryModal .modal-content { max-width: 480px; }
+    #completeProfileModal .modal-content { max-width: 370px; }
+    /* Spin Wheel Modal Size */
+    #spinWheelModal .modal-content { max-width: 500px; padding: 20px;} /* Adjusted padding */
+     /* Swap Modal Size */
+     #swapModal .modal-content { max-width: 380px; }
+
+
+    /* --- Settings Modal Button Styles (Using New Theme Colors) --- */
+    #profileBtn { background: linear-gradient(145deg, #ab47bc, #8e24aa); border-bottom-color: #6a1b9a; } /* Purple */
+    #toggleSound { background: linear-gradient(145deg, #4caf50, #388e3c); border-bottom-color: #1b5e20; } /* Green */
+    #customerService { background: linear-gradient(145deg, #2196f3, #1976d2); border-bottom-color: #0d47a1; } /* Blue */
+    #withdrawalHistoryBtn { background: linear-gradient(145deg, #ffc107, #ffa000); border-bottom-color: #ff6f00; } /* Amber */
+    /* Hover states for settings buttons */
+    #profileBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #ba68c8, #9c27b0); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(171, 71, 188, 0.7); }
+    #toggleSound:hover:not(:disabled) { background-image: linear-gradient(145deg, #66bb6a, #43a047); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.7); }
+    #customerService:hover:not(:disabled) { background-image: linear-gradient(145deg, #42a5f5, #1e88e5); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(33, 150, 243, 0.7); }
+    #withdrawalHistoryBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #ffca28, #ffb300); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 193, 7, 0.7); }
+
+    /* --- Profile Modal Styles --- */
+    #profileModal .modal-content h2 { color: #ab47bc; } /* Purple Title */
+    #profileModal .modal-content p {
+        margin: 16px 0; /* Increased spacing */
+        font-family: 'Arial', sans-serif; /* More readable font */
+        font-size: 16px; /* Slightly larger */
+        line-height: 1.7; /* Better line spacing */
+        color: #ddd; border-bottom: 1px solid #444; padding-bottom: 10px; /* Separator line */
+    }
+    #profileModal .modal-content p:last-child { border-bottom: none; } /* Remove last border */
+    #profileModal .modal-content p strong { color: #fff; display: inline-block; min-width: 130px; /* Wider label */ }
+    #profileModal .modal-content span { color: #ffc107; word-break: break-all; font-weight: bold; } /* Amber data */
+    #profileInfo { border-top: 1px solid #555; margin-top: 20px; padding-top: 20px; }
+
+    /* --- Invite Modal Styles --- */
+    #inviteModal .section { margin: 25px 0; border-top: 1px solid #555; padding-top: 20px; }
+    #inviteModal .section h3 { font-size: 1.2em; margin-bottom: 12px; color: #eee; text-shadow: 1px 1px 1px #000; }
+    #inviteModal .section p { font-size: 1em; margin-bottom: 14px; font-family: Arial, sans-serif; color: #ccc; }
+    #inviteModal #yourInviteLinkDisplay {
+        font-size: 1.1em; color: #FFD700; background: #383838; padding: 10px 14px; /* More padding */
+        border-radius: 6px; display: block; border: 1px solid #666;
+        word-break: break-all; text-align: center; margin-bottom: 12px; /* Centered link */
+        font-family: monospace; /* Monospace for code feel */
+    }
+    #copyInviteCode { background: linear-gradient(145deg, #ffc107, #ffa000); border-bottom-color: #ff6f00; } /* Amber */
+    #redeemCodeBtn { background: linear-gradient(145deg, #4caf50, #388e3c); border-bottom-color: #1b5e20; } /* Green */
+    #copyInviteCode:hover:not(:disabled) { background-image: linear-gradient(145deg, #ffca28, #ffb300); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 193, 7, 0.7); }
+    #redeemCodeBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #66bb6a, #43a047); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.7); }
+
+    /* --- Withdraw Modal Styles --- */
+    #withdrawModal .modal-content p { margin-bottom: 25px; font-family: Arial, sans-serif; line-height: 1.6; font-size: 15px; }
+    #withdrawModal .redeem-option { /* Inherits from .game-btn, override specifics */
+        background: linear-gradient(145deg, #1e88e5, #1565c0); /* Default: Blue (implies action possible) */
+        border-bottom: 4px solid #0d47a1;
+        color: #fff; padding: 12px 18px; margin: 8px 0; border-radius: 8px;
+        font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+        transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+        width: 100%; display: flex; align-items: center; justify-content: center;
+        cursor: pointer; box-shadow: 0 4px 7px rgba(0, 0, 0, 0.25);
+    }
+    #withdrawModal .redeem-option:hover:not(:disabled) {
+        background: linear-gradient(145deg, #42a5f5, #1e88e5); /* Lighter blue hover */
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 7px 12px rgba(0, 0, 0, 0.3), 0 0 15px rgba(33, 150, 243, 0.6); /* Blue glow */
+    }
+    #withdrawModal .redeem-option:active:not(:disabled) {
+        transform: translateY(1px) scale(1); border-bottom-width: 2px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    /* DISABLED options (Coins not met) */
+    #withdrawModal .redeem-option:disabled { /* Use the general disabled style */
+        background: linear-gradient(145deg, #666, #444); cursor: not-allowed; border-bottom-color: #222;
+        box-shadow: none; transform: none; opacity: 0.6; color: #aaa; text-shadow: none;
+    }
+    /* FULLY AVAILABLE options (Coins AND Referrals met) - HIGHLIGHT */
+    #withdrawModal .redeem-option.available-option {
+        background: linear-gradient(145deg, #66bb6a, #43a047); /* Brighter Green */
+        border-bottom-color: #1b5e20;
+        box-shadow: 0 4px 7px rgba(0, 0, 0, 0.25), 0 0 12px rgba(76, 175, 80, 0.5); /* Subtle green glow */
+    }
+    #withdrawModal .redeem-option.available-option:hover:not(:disabled) {
+        background: linear-gradient(145deg, #81c784, #4caf50); /* Lighter green hover */
+        box-shadow: 0 7px 12px rgba(0, 0, 0, 0.3), 0 0 18px rgba(76, 175, 80, 0.7); /* Enhanced green glow */
+        transform: translateY(-3px) scale(1.02);
+    }
+     /* ONE-TIME REDEEMED style */
+     #withdrawModal .redeem-option.redeemed-once {
+         background: linear-gradient(145deg, #5a5a5a, #404040); /* Darker grey, indicates used */
+         border-bottom-color: #202020;
+         cursor: not-allowed;
+         opacity: 0.8;
+         text-decoration: line-through; /* Optional: strikethrough */
+     }
+     #withdrawModal .redeem-option.redeemed-once:hover {
+         transform: none;
+         box-shadow: 0 4px 7px rgba(0, 0, 0, 0.25); /* Keep static shadow */
+         background: linear-gradient(145deg, #5a5a5a, #404040); /* No background change on hover */
+     }
+
+
+    #redeemForm { display: none; margin-top: 25px; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6; text-align: left; }
+    #redeemForm h3 { font-family: 'Press Start 2P', cursive; font-size: 1.3em; color: #eee; margin-bottom: 20px; text-align: center; text-shadow: 1px 1px 1px #000; }
+    #referralTaskDisplay {
+        margin-bottom: 25px; padding: 12px 18px; border-radius: 8px;
+        border: 2px solid #555; background-color: #2c2c2c;
+        font-family: 'Press Start 2P', cursive; font-size: 12px; /* Use game font */
+        text-align: center; line-height: 1.5; letter-spacing: 0.5px;
+    }
+    #referralTaskDisplay.task-complete { border-color: #4caf50; color: #66bb6a; background-color: #2e4430; } /* Green theme */
+    #referralTaskDisplay.task-incomplete { border-color: #ffa000; color: #ffca28; background-color: #4d3f21; } /* Amber theme */
+    #referralTaskDisplay strong { color: #fff; }
+    #referralTaskDisplay .status-icon { font-weight: bold; font-size: 1.2em; margin-left: 10px; display: inline-block; vertical-align: middle; }
+    #redeemForm label { display: block; margin-bottom: 6px; color: #ccc; font-size: 14px; font-family: 'Press Start 2P', cursive; } /* Use game font for labels */
+    #redeemForm input[type="text"] { margin-bottom: 18px; border-radius: 8px; padding: 12px; } /* Match modal input style */
+    #redeemForm input[type="radio"] { margin-right: 10px; vertical-align: middle; transform: scale(1.2); /* Larger radio */ }
+    #redeemForm label input[type="radio"] { display: inline; margin-bottom: 0; }
+    #redeemForm .payment-options label { margin-bottom: 12px; display: block; font-family: Arial, sans-serif; font-size: 15px; } /* Arial for payment options */
+    #redeemSubmitBtn {
+         background: linear-gradient(145deg, #4caf50, #388e3c); /* Green */
+         border-bottom-color: #1b5e20; width: 100%; margin-top: 25px; font-size: 15px; padding: 14px 24px; /* Adjust padding */
+     }
+    #redeemSubmitBtn:hover:not(:disabled) {
+        background-image: linear-gradient(145deg, #66bb6a, #43a047);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.7); /* Green glow */
+    }
+    #redeemSubmitBtn:disabled { /* Use general disabled style */
+        background: linear-gradient(145deg, #666, #444); cursor: not-allowed; border-bottom-color: #222;
+        box-shadow: none; transform: none; opacity: 0.6; color: #aaa; text-shadow: none;
+    }
+
+    /* --- Info Modal Styles --- */
+    #infoModal .modal-content h2 { color: #2196f3; } /* Blue Title */
+    #infoModal .modal-content p { margin: 18px 0; font-family: 'Arial', sans-serif; font-size: 15px; line-height: 1.7; color: #ddd; text-align: left; padding-bottom: 10px; border-bottom: 1px solid #444; }
+    #infoModal .modal-content p:last-child { border-bottom: none; }
+    #infoModal .modal-content p strong { color: #fff; }
+    #infoModal .modal-content .highlight { color: #ffee58; font-weight: bold; /* Brighter Yellow Highlight */ }
+
+    /* --- Withdrawal History Modal Styles --- */
+    #withdrawalHistoryModal .modal-content h2 { color: #ffc107; } /* Amber Title */
+    #historyList { margin-top: 25px; max-height: 55vh; overflow-y: auto; padding-right: 15px; text-align: left; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.6; }
+    .history-item { background: #2a2a2a; border: 1px solid #4f4f4f; border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; color: #ccc; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .history-item span { display: block; margin-bottom: 5px; font-size: 13px; }
+    .history-item .details { flex-grow: 1; margin-right: 15px; }
+    .history-item .details span:first-child { font-weight: bold; color: #eee; font-size: 14px; } /* Highlight amount */
+    .history-item .status { font-family: 'Press Start 2P', cursive; font-size: 11px; padding: 5px 10px; border-radius: 5px; text-transform: uppercase; min-width: 90px; text-align: center; margin-top: 5px; font-weight: bold; letter-spacing: 0.5px; }
+    .history-item .status-pending { background-color: #ffa000; color: #4d3f21; border: 1px solid #e67e22;} /* Amber */
+    .history-item .status-approved { background-color: #4caf50; color: #1b5e20; border: 1px solid #10ac84;} /* Green */
+    .history-item .status-rejected { background-color: #f44336; color: #5e141e; border: 1px solid #c0392b;} /* Red */
+    .history-item .date { font-size: 11px; color: #999; width: 100%; text-align: right; margin-top: 6px; }
+    #historyList .no-history { color: #888; text-align: center; padding: 25px; font-size: 1.1em; font-style: italic;}
+
+     /* --- Complete Profile Modal Styles --- */
+    #completeProfileModal .modal-content h2 { color: #4caf50; } /* Green Title */
+    #completeProfileModal .modal-content p { margin-bottom: 18px; font-family: Arial, sans-serif; line-height: 1.6; font-size: 15px; text-align: left; color: #ddd; }
+    #completeProfileModal .modal-content p.subtle { font-size: 12px; color: #aaa; font-style: italic; margin-top: -12px; }
+    #completeProfileModal .modal-content label { font-family: 'Press Start 2P', cursive; font-size: 13px; }
+    #completeProfileModal .modal-content input[type="text"] { margin-bottom: 25px; border-radius: 8px; padding: 12px; }
+    #completeProfileModal #saveProfileBtn { background: linear-gradient(145deg, #4caf50, #388e3c); border-bottom-color: #1b5e20; } /* Green */
+    #completeProfileModal #saveProfileBtn:hover:not(:disabled) { background-image: linear-gradient(145deg, #66bb6a, #43a047); box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.7); }
+
+    /* --- Ad Container Styles --- */
+    #bannerAdContainer { position: fixed; bottom: 0; left: 0; width: 100%; height: 50px; background-color: #080808; z-index: 1000; display: flex; justify-content: center; align-items: center; overflow: hidden; border-top: 3px solid #333; }
+    #bannerAdContainer iframe { max-width: 100%; }
+    #interstitialAdOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.92); z-index: 2000; display: none; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: 'Press Start 2P', cursive; padding: 20px; backdrop-filter: blur(4px); }
+    #interstitialAdOverlay p#adInfoText { font-size: 1.2em; margin-bottom: 30px; color: #eee; line-height: 1.6; text-shadow: 1px 1px 2px #000; }
+    #interstitialAdCloseButton { /* Use game-btn styles */
+        padding: 14px 28px; font-size: 1em; cursor: pointer;
+        background: linear-gradient(145deg, #f44336, #d32f2f); border-bottom-color: #b71c1c; /* Error Red */
+        color: white; border-radius: 10px; font-family: 'Press Start 2P', cursive;
+        display: none; text-transform: uppercase; margin-top: 25px;
+        text-shadow: 2px 2px 3px rgba(0,0,0,0.8); border: none;
+        box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
+    }
+    #interstitialAdCloseButton:hover { /* Match game-btn hover */
+        transform: translateY(-3px) scale(1.04);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 18px rgba(244, 67, 54, 0.7); /* Red glow */
+        background: linear-gradient(145deg, #ef5350, #e53935);
+    }
+    #interstitialAdTimer { margin-top: 18px; font-size: 0.9em; color: #bbb; }
+    #interstitialAdOverlay p.skip-info { font-size: 0.8em; color: #aaa; margin-top: 35px; font-family: Arial, sans-serif; line-height: 1.5; }
+
+    /* --- Status Message Container --- */
+    #statusMessageContainer {
+        display: none; position: fixed; top: 15px; left: 50%; transform: translateX(-50%);
+        background-color: rgba(10, 10, 10, 0.92); /* Darker background */
+        color: white; padding: 14px 28px; /* More padding */
+        border-radius: 10px; z-index: 5000; font-family: 'Press Start 2P', cursive; font-size: 1.0em; /* Larger font */
+        text-align: center; border: 3px solid #fff; /* Thicker border */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6); /* Corrected: 5mario to 5px */
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out, top 0.4s ease-in-out, transform 0.4s ease-in-out; /* Added transform transition */
+        max-width: 90%; pointer-events: none; letter-spacing: 0.5px;
+    }
+    #statusMessageContainer.show {
+        display: block; opacity: 1; top: 30px; /* Start slightly higher */
+        transform: translateX(-50%) scale(1); /* Scale in */
+    }
+    /* Status colors matching button themes */
+    #statusMessageContainer.success { border-color: #4caf50; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 15px rgba(76, 175, 80, 0.6); } /* Green */
+    #statusMessageContainer.error { border-color: #f44336; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 15px rgba(244, 67, 54, 0.6); } /* Red */
+    #statusMessageContainer.info { border-color: #2196f3; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6), 0 0 15px rgba(33, 150, 243, 0.6); } /* Blue */
+
+    /* --- Spin Wheel Specific Styles (some custom, some Tailwind) --- */
+    .wheel-container {
+        position: relative;
+        width: 100%;
+        max-width: 350px; /* Max width for the wheel */
+        margin: 0 auto 20px auto; /* Center and add bottom margin */
+        display: flex; /* To center SVG */
+        justify-content: center; /* To center SVG */
+        align-items: center; /* To center SVG */
+    }
+    .wheel-svg {
+        display: block; /* Remove extra space below SVG */
+        transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smooth transition */
+    }
+    .wheel-arrow {
+        position: absolute;
+        top: -25px; /* Position above the wheel */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 30px;
+        color: #ff38a1; /* Pink color */
+        filter: drop-shadow(0 0 5px rgba(255, 56, 161, 0.8)); /* Pink glow */
+        z-index: 10; /* Above the wheel */
+    }
+    .wheel-center-pin {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        background-color: #4caf50; /* Green color */
+        border-radius: 50%;
+        border: 4px solid #eee;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Press Start 2P', cursive;
+        color: white;
+        font-size: 14px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        text-transform: uppercase;
+        box-shadow: 0 0 15px rgba(76, 175, 80, 0.7), inset 0 0 8px rgba(0,0,0,0.5);
+    }
+    .wheel-text {
+        /* Styles for the text on the wheel segments */
+        font-family: Arial, sans-serif; /* Use a readable font */
+        font-size: 10px;
+        fill: #000; /* Dark text */
+        font-weight: bold;
+        text-anchor: middle; /* Center text */
+        dominant-baseline: central;
+    }
+    .wheel-text-outline {
+        stroke: #fff; /* White stroke */
+        stroke-width: 1; /* Stroke width */
+        paint-order: stroke fill; /* Draw stroke before fill */
+    }
+
+     .timer-display {
+         font-family: Arial, sans-serif;
+         font-size: 14px;
+         color: #bbb;
+         margin-top: 15px;
+         min-height: 1.2em; /* Reserve space */
+     }
+      .buy-spin-option {
+          font-size: 13px; /* Match other modal buttons */
+          padding: 12px 20px;
+          margin-top: 15px; /* More space */
+          background: linear-gradient(145deg, #ffc107, #ffa000); /* Amber */
+          border-bottom-color: #ff6f00;
+      }
+      .buy-spin-option:hover:not(:disabled) {
+          background-image: linear-gradient(145deg, #ffca28, #ffb300);
+          box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 193, 7, 0.7); /* Yellow glow */
+      }
+      .buy-spin-option:disabled {
+           background: linear-gradient(145deg, #666, #444); cursor: not-allowed; border-bottom-color: #222;
+            box-shadow: none; transform: none; opacity: 0.6; color: #aaa; text-shadow: none;
+      }
+
+     /* --- Swap Modal Styles --- */
+    #swapModal .modal-content { max-width: 380px; }
+    #swapModal .modal-content h2 { color: #2196f3; } /* Blue Title */
+    #swapModal .modal-content p { margin: 15px 0; font-family: Arial, sans-serif; font-size: 15px; line-height: 1.6; color: #ddd; }
+    #swapModal .modal-content p strong { color: #fff; display: inline-block; min-width: 100px; }
+     #swapModal .swap-info {
+         background: #383838; padding: 10px 14px; margin-bottom: 20px;
+         border-radius: 6px; border: 1px solid #666;
+         font-family: 'Press Start 2P', cursive; font-size: 12px; line-height: 1.5;
+         text-align: center;
+     }
+     #swapModal .swap-info .status-group {
+         display: flex;
+         align-items: center;
+         justify-content: center; /* Center content in swap info */
+         margin: 2px 0; /* Small vertical spacing */
+          padding: 0; /* Remove padding from inner groups */
+     }
+     #swapModal .swap-info .status-group img {
+         width: 14px; height: 14px; margin-right: 5px; /* Keep icons for clarity here? Or remove as requested? Removing icons from swap info too */
+         display: none; /* HIDE ICONS IN SWAP MODAL */
+     }
+      #swapModal .swap-info .status-group span {
+          font-weight: bold;
+          font-size: 1em;
+      }
+     #swapModal .swap-info strong { color: #ffc107; } /* Highlight coins */
+     #swapModal .swap-info .pkr-highlight { color: #4caf50; } /* Highlight PKR */
+     #swapToPkrBtn {
+         background: linear-gradient(145deg, #2196f3, #1976d2); border-bottom-color: #0d47a1; /* Blue */
+         width: 100%; margin-top: 20px; font-size: 15px;
+     }
+     #swapToPkrBtn:hover:not(:disabled) {
+        background-image: linear-gradient(145deg, #42a5f5, #1e88e5);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(33, 150, 243, 0.7); /* Blue glow */
+     }
+     #swapToPkrBtn:disabled { /* Use general disabled style */
+        background: linear-gradient(145deg, #666, #444); cursor: not-allowed; border-bottom-color: #222;
+        box-shadow: none; transform: none; opacity: 0.6; color: #aaa; text-shadow: none;
+     }
+
+    /* --- End of CSS --- */
+  </style>
+
+</head>
+<body>
+  <!-- Status Message Container -->
+  <div id="statusMessageContainer"> <span id="statusMessageText"></span> </div>
+
+  <!-- Audio Elements -->
+  <audio id="backgroundAudio" loop> <source src="mines background .mp3" type="audio/mp3"> Your browser does not support the audio element. </audio>
+  <audio id="jumpSound"> <source src="gruntjumpland-101soundboards.mp3" type="audio/mp3"> </audio>
+  <audio id="coinSound"> <source src="coin-recieved-230517.mp3" type="audio/mp3"> </audio>
+  <audio id="gameOverSound"> <source src="game-over-arcade-6435.mp3" type="audio/mp3"> </audio>
+  <!-- New Audio for Spin -->
+  <audio id="spinStartSound"><source src="https://file-examples-com.github.io/uploads/2017/11/file_example_WAV_1MG.wav" type="audio/wav"></audio> <!-- Placeholder Spin Start Sound -->
+  <audio id="spinWinSound"><source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mp3"></audio> <!-- Placeholder Spin Win Sound -->
+
+
+  <!-- Google Sign-in Panel -->
+  <div id="googleSignInPanel" class="flex">
+      <h2>Welcome Gamer!</h2>
+      <button id="googleSignInBtn" class="game-btn">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google G Logo"/>
+          Sign in with Google
+      </button>
+      <button id="guestButtonAlt" class="game-btn">Continue as Guest</button>
+  </div>
+
+  <!-- Complete Profile Modal -->
+  <div id="completeProfileModal" class="modal hidden">
+      <div class="modal-content">
+          <h2>Complete Your Profile</h2>
+          <p>Welcome! Please set your username and optionally enter a referral code.</p>
+          <div>
+              <label for="profileUsernameInput">Username:</label>
+              <input type="text" id="profileUsernameInput" placeholder="Choose a username (min 3 chars)" required />
+          </div>
+           <div>
+              <label for="profileReferralInput">Referral Code (Optional):</label>
+              <input type="text" id="profileReferralInput" placeholder="Enter friend's code" />
+              <p class="subtle">Enter a code to get a bonus!</p>
+          </div>
+          <button id="saveProfileBtn" class="game-btn">Save and Play</button>
+      </div>
+  </div>
+
+  <!-- Game Canvas -->
+  <canvas id="gameCanvas" class="hidden"></canvas>
+
+  <!-- Main Menu -->
+  <div id="mainMenu" class="hidden">
+     <button id="settingsBtn" title="Open Settings">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M487.4 315.7l-42.1-24.3c2.8-12.8 4.3-26 4.3-39.4s-1.5-26.6-4.3-39.4l42.1-24.3c9.4-5.4 13.3-17.1 9.4-27.2l-45.3-78.4c-3.9-10.1-14.2-14.8-24.7-11.5l-49.5 19.9c-20.5-16.1-43-29.2-67.2-38.1l-7.5-52.8C309 3.7 300.3-2.5 290.3.1l-90.6 18.5c-10 2.1-17.6 9.9-19.8 19.8l-7.5 52.8c-24.3 8.9-46.8 22-67.2 38.1L54.6 83.1c-10.5-3.3-20.8.4-24.7 11.5L-15.4 172.9c-3.9 10.1-.1 21.8 9.4 27.2l42.1 24.3C73.5 243.3 72 256.4 72 269.9c0 13.5 1.5 26.6 4.3 39.4l-42.1 24.3c-9.4 5.4-13.3 17.1-9.4 27.2l45.3 78.4c3.9 10.1 14.2 14.8 24.7 11.5l49.5-19.9c20.5 16.1 43 29.2 67.2 38.1l7.5 52.8c2 10 10.7 15.3 20.7 12.8l90.6-18.5c10-2.1 17.6 9.9 19.8-19.8l7.5-52.8c24.3-8.9 46.8-22 67.2-38.1l49.5 19.9c10.5 3.3 20.8-.4 24.7-11.5l45.3-78.4c3.9-10.1.1 21.8-9.4-27.2zM256 336c-44.2 0-80-35.8-80-80s35.8-80 80-80c44.2 0 80 35.8 80 80s-35.8 80-80 80z"></path></svg>
+     </button>
+     <div id="topRightStatus">
+         <div class="status-group"><img id="coinIcon" src="https://i.imgur.com/PCDgdlS.png" alt="Coin"><span id="menuCoinCount">0</span></div>
+         <!-- Updated PKR display -->
+         <div class="status-group">Rs <span class="pkr-value" id="menuPkrCount">0</span></div>
+     </div>
+     <button id="startBtn" class="menu-btn game-btn">Play Now</button>
+     <button id="withdrawBtn" class="menu-btn game-btn">Withdraw Coins</button>
+     <button id="inviteFriend" class="menu-btn game-btn">Invite (0)</button>
+     <button id="infoBtn" class="menu-btn game-btn">Game Info</button>
+     <!-- REMOVED: Download APK Button -->
+     <button id="logoutBtn" class="menu-btn game-btn">Exit</button>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="close-btn" id="closeSettings">×</button>
+      <h2>Settings</h2>
+      <button id="profileBtn" class="game-btn">View Profile</button>
+      <button id="toggleSound" class="game-btn">Sound: On</button>
+      <button id="withdrawalHistoryBtn" class="game-btn">Withdrawal History</button>
+      <button id="customerService" class="game-btn">Customer Service</button>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal hidden">
+      <div class="modal-content">
+          <button class="close-btn" id="closeProfileModal">×</button>
+          <h2>Gamer Profile</h2>
+          <div id="profileInfo">
+              <p><strong>Username:</strong> <span id="profileUsername">...</span></p>
+              <p><strong>Email:</strong> <span id="profileEmail">...</span></p>
+              <p><strong>Total Coins:</strong> <span id="profileTotalCoins">...</span></p>
+               <p><strong>Total PKR:</strong> <span id="profileTotalPkr">...</span></p>
+              <p><strong>Referrals:</strong> <span id="profileReferralCount">...</span></p>
+              <p><strong>Your Code:</strong> <span id="profileInviteCode">...</span></p>
+              <p><strong>Joined:</strong> <span id="profileJoinedDate">...</span></p>
+          </div>
+      </div>
+  </div>
+
+  <!-- Invite Modal -->
+  <div id="inviteModal" class="modal hidden">
+      <div class="modal-content">
+          <button class="close-btn" id="closeInviteModal">×</button>
+          <h2>Invite Friend</h2>
+          <div class="section">
+              <h3>Your Invite Link</h3>
+              <div id="yourInviteLinkDisplay">Generating link...</div>
+              <button id="copyInviteCode" class="game-btn">Copy Link</button>
+          </div>
+          <div class="section">
+              <h3>Redeem Invite Code</h3>
+              <input type="text" id="redeemCodeInput" placeholder="Enter friend's code" />
+              <button id="redeemCodeBtn" class="game-btn">Redeem</button>
+          </div>
+      </div>
+  </div>
+
+  <!-- Game Over Overlay -->
+  <div id="gameOverMenu" class="hidden">
+      <h2>Game Over</h2>
+      <p>Session Coins: <span id="sessionCoinCount">0</span></p>
+      <p>Total Coins: <span id="finalTotalCoins">0</span></p>
+      <!-- Changed "PKR" to "Rs" -->
+      <p>Total Rs: <span id="finalTotalPkr">0</span></p> <!-- Added PKR to game over screen -->
+      <button id="restartBtn" class="menu-btn game-btn">Restart</button>
+      <button id="backMenuBtn" class="menu-btn game-btn">Back to Menu</button>
+  </div>
+
+  <!-- Withdraw Modal -->
+  <div id="withdrawModal" class="modal hidden">
+     <div class="modal-content">
+         <button class="close-btn" id="closeWithdraw">×</button>
+         <h2>Redeem Coins</h2>
+         <p>Select an option (Requires invites):</p>
+         <div id="redeemOptions">
+             <button class="redeem-option" data-coins="10000" data-pkr="100">10k Coins - 100 PKR (One-Time)</button>
+             <button class="redeem-option" data-coins="30000" data-pkr="300">30k Coins - 300 PKR</button>
+             <button class="redeem-option" data-coins="50000" data-pkr="500">50k Coins - 500 PKR</button>
+             <button class="redeem-option" data-coins="80000" data-pkr="800">80k Coins - 800 PKR</button>
+             <button class="redeem-option" data-coins="100000" data-pkr="1000">100k Coins - 1000 PKR</button>
+             <button class="redeem-option" data-coins="500000" data-pkr="5000">500k Coins - 5000 PKR</button>
+         </div>
+         <div id="redeemForm" class="hidden">
+             <h3>Enter Details</h3>
+             <!-- Referral Task Display -->
+             <div id="referralTaskDisplay">
+                <!-- Content dynamically set by JS -->
+             </div>
+             <!-- End Referral Task Display -->
+             <form id="redeemDetailsForm">
+                 <div><label for="accountHolderName">Account Name:</label><input type="text" id="accountHolderName" required /></div>
+                 <div><label for="accountNumber">Account Number:</label><input type="text" id="accountNumber" required /></div>
+                 <div class="payment-options" style="margin-top: 15px;">
+                     <label>Method:</label>
+                     <label><input type="radio" name="paymentMethod" value="JazzCash" required> JazzCash</label>
+                     <label><input type="radio" name="paymentMethod" value="EasyPaisa" required> EasyPaisa</label>
+                 </div>
+                 <button type="submit" id="redeemSubmitBtn" class="game-btn">Submit Request</button>
+             </form>
+         </div>
+     </div>
+  </div>
+
+  <!-- Game Info Modal -->
+  <div id="infoModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="close-btn" id="closeInfo">×</button>
+      <h2>Game Info</h2>
+      <p>Welcome to <strong>Mario Run Earn Real Money</strong>! Run, jump, collect coins, and avoid obstacles.</p>
+      <p><strong>Login:</strong> Use your Google Account to Sign in and save your progress.</p>
+      <p><strong>Guest Play:</strong> Play for fun without saving coins. Great for practice!</p>
+      <p><strong>Bonuses:</strong>
+          <br>- Get <strong class="highlight">100 Coins</strong> just for signing up!
+          <br>- Invite friends using your unique link (find it in the Invite menu).
+          <br>- When your friend signs up using your code, they get an <strong class="highlight">extra 100 Coins</strong> (total 200 start!), and YOU get <strong class="highlight">200 Coins!</strong>
+          <br>- Existing users can also redeem a code once for a <strong class="highlight">100 Coin</strong> bonus.
+      </p>
+       <!-- Add Spin Wheel Info -->
+       <p><strong>Spin Wheel:</strong> Test your luck! Get a free spin every 3 hours, or buy extra spins with coins. Earn bonus coins or PKR!</p>
+       <!-- End Spin Wheel Info -->
+        <!-- Changed "PKR" to "Rs" -->
+        <p><strong>Swap Coins:</strong> Tap on your balance at the top right to swap Coins for PKR (10,000 Coins = 100 Rs). Swap amount must be in blocks of 10,000 Coins.</p> <!-- Added Swap Info -->
+      <p><strong>Withdrawals:</strong> Redeem your earned coins or PKR for real rewards via JazzCash or EasyPaisa. <strong class="highlight">You must invite a certain number of friends to unlock each withdrawal tier (except the one-time 10k Coin / 100 PKR option).</strong> Check the Withdraw menu for details.</p>
+       <!-- Changed "PKR" to "Rs" -->
+       <p><strong>One-Time Withdrawal:</strong> The 100 Rs withdrawal option (for 10k Coins) is available only once per user for demonstrating trustworthiness.</p> <!-- Added One-time info -->
+      <p><strong>Profile:</strong> Check your stats, email, and invite code in Settings > View Profile.</p>
+      <!-- REMOVED INFO ABOUT DOWNLOAD APP -->
+    </div>
+  </div>
+
+  <!-- Withdrawal History Modal -->
+  <div id="withdrawalHistoryModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="close-btn" id="closeHistoryModal">×</button>
+      <h2>Withdrawal History</h2>
+      <div id="historyList"> <p class="no-history">Loading...</p> </div>
+    </div>
+  </div>
+
+  <!-- Spin Wheel Modal -->
+    <div id="spinWheelModal" class="modal hidden">
+        <div class="modal-content w-full max-w-sm bg-zinc-800 text-white rounded-xl shadow-lg p-6 border-4 border-pink-500 relative overflow-y-auto">
+            <button class="close-btn absolute top-2 right-3 text-3xl font-bold text-gray-400 hover:text-pink-500 transform hover:rotate-90 transition-transform" id="closeSpinWheel">×</button>
+            <h2 class="text-2xl font-bold text-pink-500 mb-6 text-shadow-md">Spin the Wheel!</h2>
+
+            <div class="wheel-container relative flex justify-center items-center">
+                <svg id="wheelSvg" viewBox="0 0 400 400" class="wheel-svg w-full max-w-xs sm:max-w-sm rotate-0" style="transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);">
+                    <!-- Segments will be added here by JS -->
+                </svg>
+                <svg class="wheel-arrow absolute top-[-25px] left-1/2 transform -translate-x-1/2 w-8 h-8 text-pink-500 drop-shadow-lg" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.707-10.293a1 1 0 00-1.414 1.414L8.586 10H7a1 1 0 100 2h1.586l-1.293 1.293a1 1 0 001.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12H13a1 1 0 100-2h-1.586l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="wheel-center-pin absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-green-500 rounded-full border-4 border-white flex items-center justify-center font-press-start text-white text-sm uppercase shadow-lg z-10">Spin</div>
+            </div>
+
+            <div id="spinStatus" class="text-center text-sm mb-4 font-press-start text-yellow-400 min-h-[1.2em]">Ready to spin!</div>
+            <div id="spinsLeftDisplay" class="text-center text-sm mb-4 font-press-start text-gray-300 min-h-[1.2em]">Spins left: 0</div>
+            <div id="cooldownTimerDisplay" class="text-center timer-display text-gray-400 min-h-[1.2em]"></div>
+
+            <button id="freeSpinBtn" class="game-btn bg-blue-600 hover:bg-blue-700 border-b-4 border-blue-800 w-full mt-4">
+                Free Spin
+            </button>
+            <button id="buySpinBtn" class="buy-spin-option game-btn w-full mt-3 disabled:opacity-50 disabled:cursor-not-allowed">
+                Buy Spin (1000 Coins)
+            </button>
+        </div>
+    </div>
+
+    <!-- Swap Modal -->
+    <div id="swapModal" class="modal hidden">
+        <div class="modal-content">
+            <button class="close-btn" id="closeSwapModal">×</button>
+            <!-- Changed "PKR" to "Rs" -->
+            <h2>Swap Coins to Rs</h2>
+             <p>Convert your game Coins into real PKR balance.</p>
+            <div class="swap-info">
+                <div class="status-group"><img src="https://i.imgur.com/PCDgdlS.png" alt="Coin" style="display: none;">Coins: <strong id="swapCurrentCoins">0</strong></div>
+                 <!-- Changed "PKR" to "Rs" -->
+                 <div class="status-group">Rs <span class="pkr-highlight" id="swapCurrentPkr">0</span></div>
+            </div>
+             <!-- Changed "PKR" to "Rs" -->
+             <p>Swap Rate: <strong>10,000 Coins</strong> = <span class="pkr-highlight">100 Rs</span></p>
+             <p class="subtle">(Swap amount must be in blocks of 10,000 Coins)</p>
+            <button id="swapToPkrBtn" class="game-btn">Swap 10,000 Coins</button>
+        </div>
+    </div>
+
+
+  <!-- AD INTEGRATION -->
+  <div id="bannerAdContainer">
+    <script type="text/javascript">
+        atOptions = {
+            'key' : '34daa95d37aa866e4d5dc188a89f19b2',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+        };
+    </script>
+    <script type="text/javascript" src="//www.highperformanceformat.com/34daa95d37aa866e4d5dc188a89f19b2/invoke.js"></script>
+  </div>
+  <div id="interstitialAdOverlay" class="hidden">
+      <p id="adInfoText">Loading ad...</p>
+      <div id="interstitialAdTimer"></div>
+      <button id="interstitialAdCloseButton" class="game-btn hidden">Skip Ad</button>
+      <p class="skip-info">(Click 'Skip Ad' or close ad tab manually if needed)</p>
+  </div>
+
+    <!-- WhatsApp Button -->
+    <a href="https://whatsapp.com/channel/0029VbAKXCi2ER6lhPezY50a" target="_blank" id="whatsappBtn" class="whatsapp-btn" title="Join our WhatsApp Channel">
+        <img src="https://i.imgur.com/d2UlLQN.png" alt="WhatsApp Icon"> <!-- CORRECTED IMAGE LINK -->
+    </a>
+
+    <!-- Spin Button -->
+     <!-- Added Tailwind classes: bg-yellow-500 hover:bg-yellow-600 shadow-lg hover:shadow-xl -->
+    <div id="spinBtn" class="hidden bg-yellow-500 hover:bg-yellow-600 shadow-lg hover:shadow-xl">
+        <img src="./Picsart_25-06-03_14-44-00-310.png" alt="Spin Wheel Icon">
+    </div>
+
+
+  <!-- Firebase and Game Scripts -->
+  <script type="module">
+    // --- Firebase Imports ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-app.js";
+    import { getDatabase, ref, set, get, push, query, orderByChild, equalTo, onValue, serverTimestamp, update } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-database.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.3.0/firebase-auth.js";
+
+    // --- DOM Element References ---
+    const googleSignInPanel = document.getElementById('googleSignInPanel');
+    const googleSignInBtn = document.getElementById('googleSignInBtn');
+    const guestButtonAlt = document.getElementById('guestButtonAlt');
+    const completeProfileModal = document.getElementById('completeProfileModal');
+    const profileUsernameInput = document.getElementById('profileUsernameInput');
+    const profileReferralInput = document.getElementById('profileReferralInput');
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    const mainMenu = document.getElementById('mainMenu');
+    const gameOverMenu = document.getElementById('gameOverMenu');
+    const gameCanvas = document.getElementById('gameCanvas');
+    const settingsModal = document.getElementById('settingsModal');
+    const profileModal = document.getElementById('profileModal');
+    const inviteModal = document.getElementById('inviteModal');
+    const withdrawModal = document.getElementById('withdrawModal');
+    const infoModal = document.getElementById('infoModal');
+    const withdrawalHistoryModal = document.getElementById('withdrawalHistoryModal');
+    const historyListDiv = document.getElementById('historyList');
+    const interstitialAdOverlay = document.getElementById('interstitialAdOverlay');
+    const interstitialAdCloseButton = document.getElementById('interstitialAdCloseButton');
+    const interstitialAdTimer = document.getElementById('interstitialAdTimer');
+    const adInfoText = document.getElementById('adInfoText');
+
+    // Updated Coin/PKR Display Refs
+    const topRightStatus = document.getElementById('topRightStatus');
+    const menuCoinCountSpan = document.getElementById('menuCoinCount');
+    const menuPkrCountSpan = document.getElementById('menuPkrCount'); // This span will hold the PKR value
+
+    const finalTotalCoinsSpan = document.getElementById('finalTotalCoins');
+    const finalTotalPkrSpan = document.getElementById('finalTotalPkr'); // Added PKR span
+    const sessionCoinCountSpan = document.getElementById('sessionCoinCount');
+    const inviteFriendBtn = document.getElementById('inviteFriend');
+    const yourInviteLinkDisplay = document.getElementById('yourInviteLinkDisplay');
+    const redeemCodeInput = document.getElementById("redeemCodeInput");
+    const toggleSoundBtn = document.getElementById("toggleSound");
+    const redeemOptionsDiv = document.getElementById("redeemOptions");
+    const redeemFormDiv = document.getElementById("redeemForm");
+    const redeemDetailsForm = document.getElementById("redeemDetailsForm");
+    const redeemSubmitBtn = document.getElementById('redeemSubmitBtn');
+    const withdrawalHistoryBtn = document.getElementById('withdrawalHistoryBtn');
+    const closeHistoryModalBtn = document.getElementById('closeHistoryModal');
+    const profileBtn = document.getElementById('profileBtn');
+    const closeProfileModalBtn = document.getElementById('closeProfileModal');
+    const profileUsernameSpan = document.getElementById('profileUsername');
+    const profileEmailSpan = document.getElementById('profileEmail');
+    const profileTotalCoinsSpan = document.getElementById('profileTotalCoins');
+    const profileTotalPkrSpan = document.getElementById('profileTotalPkr'); // Added PKR span
+    const profileReferralCountSpan = document.getElementById('profileReferralCount');
+    const profileInviteCodeSpan = document.getElementById('profileInviteCode');
+    const profileJoinedDateSpan = document.getElementById('profileJoinedDate');
+    const statusMessageContainer = document.getElementById('statusMessageContainer');
+    const statusMessageText = document.getElementById('statusMessageText');
+    let statusMessageTimeoutId = null;
+    const backgroundAudio = document.getElementById("backgroundAudio");
+    const jumpSound = document.getElementById("jumpSound");
+    const coinSound = document.getElementById("coinSound");
+    const gameOverSound = document.getElementById("gameOverSound");
+    const settingsBtn = document.getElementById('settingsBtn');
+    const closeSettings = document.getElementById('closeSettings');
+    const infoBtn = document.getElementById('infoBtn');
+    const closeInfo = document.getElementById('closeInfo');
+    const copyInviteCode = document.getElementById('copyInviteCode');
+    const redeemCodeBtn = document.getElementById('redeemCodeBtn');
+    const closeInviteModal = document.getElementById('closeInviteModal');
+    const withdrawBtn = document.getElementById('withdrawBtn');
+    const closeWithdraw = document.getElementById('closeWithdraw');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const startBtn = document.getElementById('startBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const backMenuBtn = document.getElementById('backMenuBtn');
+    const customerService = document.getElementById('customerService');
+    const accountHolderName = document.getElementById('accountHolderName');
+    const accountNumber = document.getElementById('accountNumber');
+    const referralTaskDisplay = document.getElementById('referralTaskDisplay');
+    const whatsappBtn = document.getElementById('whatsappBtn');
+
+    // --- Spin Wheel Elements ---
+    const spinBtn = document.getElementById('spinBtn');
+    const spinWheelModal = document.getElementById('spinWheelModal');
+    const closeSpinWheelBtn = document.getElementById('closeSpinWheel');
+    const wheelSvg = document.getElementById('wheelSvg');
+    const freeSpinBtn = document.getElementById('freeSpinBtn');
+    const buySpinBtn = document.getElementById('buySpinBtn');
+    const spinsLeftDisplay = document.getElementById('spinsLeftDisplay');
+    const cooldownTimerDisplay = document.getElementById('cooldownTimerDisplay');
+    const spinStatusDisplay = document.getElementById('spinStatus');
+    const spinStartSound = document.getElementById('spinStartSound');
+    const spinWinSound = document.getElementById('spinWinSound');
+
+    // --- Swap Modal Elements ---
+    const swapModal = document.getElementById('swapModal');
+    const closeSwapModalBtn = document.getElementById('closeSwapModal');
+    const swapCurrentCoinsSpan = document.getElementById('swapCurrentCoins');
+    const swapCurrentPkrSpan = document.getElementById('swapCurrentPkr');
+    const swapToPkrBtn = document.getElementById('swapToPkrBtn');
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCpheUGTtliJyTXjVlm1VnfvGTbaeykQ7E", authDomain: "super-mario-earn-real-money.firebaseapp.com",
+      databaseURL: "https://super-mario-earn-real-money-default-rtdb.firebaseio.com", projectId: "super-mario-earn-real-money",
+      storageBucket: "super-mario-earn-real-money.firebasestorage.app", messagingSenderId: "527750706733",
+      appId: "1:527750706733:web:71f31dc125468ca645eaa4", measurementId: "G-Z25ZFF8PWT"
+    };
+
+    // --- Firebase Initialization ---
+    let appFirebase, db, auth;
+    try {
+        appFirebase = initializeApp(firebaseConfig);
+        db = getDatabase(appFirebase);
+        auth = getAuth();
+        console.log("Firebase initialized successfully.");
+    } catch (error) {
+        console.error("Firebase initialization failed:", error);
+        showStatusMessage("Connection error. Cannot initialize.", "error", 10000);
+        if (googleSignInBtn) googleSignInBtn.disabled = true;
+        if (guestButtonAlt) guestButtonAlt.disabled = true;
+    }
+
+    // --- Global State ---
+    let totalCoins = 0;
+    let totalPKR = 0; // New state for PKR balance
+    let soundEnabled = true;
+    let currentUserInviteCode = null;
+    let currentUsername = null;
+    let currentReferralCount = 0;
+    let currentJoinedDate = null;
+    let hasWithdrawn10kPKR = false; // New state for one-time withdrawal
+    let gameStarted = false;
+    let gameOver = false;
+    let score = 0;
+    let mario, obstacles, coins, speed, bgX, platformX;
+    let lastJumpInputTime = 0;
+    const doubleJumpWindow = 350;
+    let canDoubleJump = false;
+    let animationFrameId = null;
+    let allImagesLoaded = false;
+    let isProcessingAuth = false;
+    let coinListenerUnsubscribe = null;
+    let profileCompleteListener = null;
+    // --- Spin Wheel State ---
+    let spinsLeft = 0;
+    let lastSpinTime = 0; // Timestamp in milliseconds
+    const spinCooldownHours = 3;
+    const spinCooldownMilliseconds = spinCooldownHours * 60 * 60 * 1000; // 3 hours in ms
+    const spinBuyPrice = 1000; // Coins
+
+
+    // --- Constants ---
+    const SIGNUP_BONUS = 100;
+    const REFERRER_BONUS = 200;
+    const REDEEMER_BONUS = 100;
+    const baseInviteUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    const withdrawalRequirements = {
+        10000: 5, 30000: 10, 50000: 20, 80000: 30, 100000: 40, 500000: 50
+    };
+     // Coin equivalent for PKR rewards (1 PKR = 100 Coins) - This seems backward? Should it be 1 Coin = 0.01 PKR?
+     // The withdrawal options suggest 10k Coins = 100 PKR, which means 1 Coin = 0.01 PKR, or 1 PKR = 100 Coins.
+     // Let's stick to 100 PKR = 10000 Coins for clarity in constants
+    const COINS_PER_PKR_UNIT = 100; // 1 PKR = 100 Coins, so 100 PKR = 10000 Coins
+    const pkrToCoinRate = COINS_PER_PKR_UNIT; // 1 PKR is worth 100 coins
+    const coinToPkrRate = 1 / COINS_PER_PKR_UNIT; // 1 Coin is worth 0.01 PKR
+    const SWAP_COIN_BLOCK = 10000;
+    const SWAP_PKR_BLOCK = 100; // 100 PKR block
+
+    // Spin Wheel Rewards with type - Updated names to use "Rs"
+    const spinWheelRewards = [
+        { name: '1 Rs', type: 'pkr', amount: 1, weight: 50, color: '#f44336' },     // Red
+        { name: '5 Rs', type: 'pkr', amount: 5, weight: 40, color: '#ff9800' },     // Orange
+        { name: '10 Rs', type: 'pkr', amount: 10, weight: 20, color: '#ffeb3b' },   // Yellow
+        { name: '50 Rs', type: 'pkr', amount: 50, weight: 1, color: '#4caf50' },     // Green
+        { name: '100 Rs', type: 'pkr', amount: 100, weight: 0.1, color: '#2196f3' }, // Blue
+        { name: '100 Coins', type: 'coins', amount: 100, weight: 50, color: '#9c27b0' },     // Purple
+        { name: '200 Coins', type: 'coins', amount: 200, weight: 40, color: '#e91e63' },     // Pink
+        { name: '500 Coins', type: 'coins', amount: 500, weight: 30, color: '#00bcd4' },     // Cyan
+        { name: '5000 Coins', type: 'coins', amount: 5000, weight: 1, color: '#8bc34a' },    // Light Green
+        { name: '10000 Coins', type: 'coins', amount: 10000, weight: 0.1, color: '#ff5722' }  // Deep Orange
+    ];
+    const totalSpinWeight = spinWheelRewards.reduce((sum, reward) => sum + reward.weight, 0);
+
+
+    // --- Status Message Function ---
+    function showStatusMessage(message, type = 'info', duration = 3000) {
+        if (statusMessageTimeoutId) { clearTimeout(statusMessageTimeoutId); statusMessageContainer.classList.remove('show'); }
+        console.log(`Status [${type}]: ${message}`);
+        statusMessageText.textContent = message;
+        statusMessageContainer.className = 'statusMessageContainer'; statusMessageContainer.classList.add(type);
+        statusMessageContainer.style.display = 'block'; statusMessageContainer.style.top = '15px'; statusMessageContainer.style.transform = 'translateX(-50%) scale(0.9)';
+        void statusMessageContainer.offsetWidth; statusMessageContainer.classList.add('show');
+        statusMessageTimeoutId = setTimeout(() => {
+            statusMessageContainer.classList.remove('show'); statusMessageTimeoutId = null;
+            setTimeout(() => { if (!statusMessageContainer.classList.contains('show')) statusMessageContainer.style.display = 'none'; }, 400);
+        }, duration);
+    }
+
+    // --- AD INTEGRATION ---
+    const directLinkUrl = "https://www.profitableratecpm.com/zi30dfhjnn?key=b78830ea0cb80a28c4b278ee2e122b06";
+    let adCloseTimerInterval; let adCloseTimeout; let currentAdCallback = null;
+    function showInterstitialAd(callback) {
+         console.log("Attempting to show Interstitial Ad...");
+         if (typeof callback !== 'function') { console.error("Invalid ad callback."); return; }
+         currentAdCallback = callback; adInfoText.textContent = "Ad loading...";
+         interstitialAdOverlay.style.display = 'flex'; // Use flex for overlay
+         interstitialAdCloseButton.style.display = 'none'; interstitialAdTimer.textContent = "";
+         let adWindow = null; try { adWindow = window.open(directLinkUrl, '_blank'); } catch (e) { console.error("Error opening ad window:", e); }
+         if (!adWindow) { console.warn("Pop-up blocked."); showStatusMessage("Ad might be blocked.", "info"); interstitialAdOverlay.style.display = 'none'; if (currentAdCallback) { try { currentAdCallback(); } catch (e) { console.error("Error in ad callback after block:", e); } } currentAdCallback = null; return; }
+         let secondsRemaining = 3; interstitialAdTimer.textContent = `Skip in ${secondsRemaining}s`;
+         if (adCloseTimerInterval) clearInterval(adCloseTimerInterval); if (adCloseTimeout) clearTimeout(adCloseTimeout);
+         adCloseTimerInterval = setInterval(() => { secondsRemaining--; if (secondsRemaining > 0) interstitialAdTimer.textContent = `Skip in ${secondsRemaining}s`; else { interstitialAdTimer.textContent = "Skip available"; clearInterval(adCloseTimerInterval); } }, 1000);
+         adCloseTimeout = setTimeout(() => { interstitialAdCloseButton.style.display = 'inline-flex'; if (adCloseTimerInterval) clearInterval(adCloseTimerInterval); interstitialAdTimer.textContent = "Skip available"; }, secondsRemaining * 1000 + 100);
+    }
+    interstitialAdCloseButton.addEventListener('click', () => {
+         console.log("Ad Skip Button clicked."); interstitialAdOverlay.style.display = 'none';
+         if (adCloseTimerInterval) clearInterval(adCloseTimerInterval); if (adCloseTimeout) clearTimeout(adCloseTimeout);
+         interstitialAdTimer.textContent = "";
+         if (typeof currentAdCallback === 'function') { console.log("Executing ad callback after skip."); try { currentAdCallback(); } catch(e) { console.error("Error in ad callback:", e); showStatusMessage("Error proceeding.", "error"); } currentAdCallback = null; }
+         else { console.warn("No ad callback found after skipping."); }
+    });
+
+    // --- Sound Functions ---
+    function playSound(audioElement) { if (soundEnabled && audioElement) { try { audioElement.currentTime=0; audioElement.play().catch(e=>console.warn(`Sound play error (${audioElement.id}):`, e)); } catch(e) { console.warn("Sound play failed:", e); } } }
+    function playBackgroundMusic() { if (soundEnabled && backgroundAudio && backgroundAudio.paused) { backgroundAudio.play().catch(e=>console.warn("Background music play failed:",e)); } }
+    function stopBackgroundMusic() { if (backgroundAudio && !backgroundAudio.paused) { backgroundAudio.pause(); backgroundAudio.currentTime=0; } }
+
+    // --- Authentication Logic ---
+    function setAuthProcessing(isProcessing) {
+        console.log(`Setting Auth Processing: ${isProcessing}`); isProcessingAuth = isProcessing;
+        if(googleSignInBtn) googleSignInBtn.disabled = isProcessing;
+        if(guestButtonAlt) guestButtonAlt.disabled = isProcessing;
+        if(saveProfileBtn) saveProfileBtn.disabled = isProcessing;
+        if(logoutBtn) logoutBtn.disabled = isProcessing;
+        if(spinBtn) spinBtn.style.pointerEvents = isProcessing ? 'none' : 'auto';
+        if(whatsappBtn) whatsappBtn.style.pointerEvents = isProcessing ? 'none' : 'auto';
+         // Disable menu buttons while processing auth
+        if(startBtn) startBtn.disabled = isProcessing;
+        if(withdrawBtn) withdrawBtn.disabled = isProcessing;
+        if(inviteFriendBtn) inviteFriendBtn.disabled = isProcessing;
+        if(infoBtn) infoBtn.disabled = isProcessing;
+        if(settingsBtn) settingsBtn.style.pointerEvents = isProcessing ? 'none' : 'auto'; // Use pointerEvents for non-button element
+        if (topRightStatus) topRightStatus.style.pointerEvents = isProcessing ? 'none' : 'auto'; // Disable clicking status too
+    }
+
+    async function handleGoogleSignInSuccess(userCredential) {
+        const user = userCredential.user;
+        console.log(`Google Sign-In Success for: ${user.uid}. Checking profile...`);
+        setAuthProcessing(true);
+        try {
+            const userRef = ref(db, `users/${user.uid}`); const snapshot = await get(userRef);
+            if (snapshot.exists() && snapshot.val().username) {
+                console.log("Existing user with username found.");
+                showStatusMessage(`Welcome back, ${snapshot.val().username}!`, "success", 2000);
+                showInterstitialAd(async () => {
+                    try {
+                        await loadUserData(user.uid);
+                        setupCoinListener(user.uid);
+                        showMainMenu(); // Ensure menu is shown after ad
+                        checkUrlForReferral();
+                    } catch (loadError) {
+                        console.error("Failed to load user data after ad:", loadError);
+                        showStatusMessage("Error loading profile data.", "error");
+                         // Stay on sign-in screen if data fails to load
+                         googleSignInPanel.style.display = 'flex'; // Show sign-in panel
+                         mainMenu.style.display = 'none'; // Hide menu
+                    } finally {
+                        setAuthProcessing(false);
+                    }
+                });
+            } else {
+                console.log("New user or profile incomplete.");
+                showStatusMessage("Complete your profile.", "info", 3000);
+                profileUsernameInput.value = user.displayName || ""; profileReferralInput.value = "";
+                const urlParams = new URLSearchParams(window.location.search); const refCode = urlParams.get('ref');
+                 if (refCode) { profileReferralInput.value = refCode.trim().toUpperCase(); console.log("Referral code pre-filled."); const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname; window.history.replaceState({path:cleanUrl},'',cleanUrl); }
+                completeProfileModal.style.display = "flex"; // Use flex to show modal
+                googleSignInPanel.style.display = "none"; // Hide sign-in
+                if(profileCompleteListener) saveProfileBtn.removeEventListener('click', profileCompleteListener);
+                profileCompleteListener = createProfileCompletionHandler(user); saveProfileBtn.addEventListener('click', profileCompleteListener);
+                setAuthProcessing(false);
+            }
+        } catch (error) {
+            console.error("Error checking user existence:", error); showStatusMessage("Error loading profile.", "error");
+            signOut(auth).catch(e => console.error("Sign out error:", e));
+            setAuthProcessing(false);
+        }
+    }
+
+    function createProfileCompletionHandler(user) {
+        return async () => {
+            if (isProcessingAuth) return;
+            const chosenUsername = profileUsernameInput.value.trim(); const referralCode = profileReferralInput.value.trim().toUpperCase();
+            if (chosenUsername.length < 3) { showStatusMessage("Username must be >= 3 chars.", "error"); return; }
+            if (!/^[a-zA-Z0-9_]+$/.test(chosenUsername)) { showStatusMessage("Invalid username characters.", "error"); return; }
+            console.log(`Saving profile for ${user.uid}. User: ${chosenUsername}, Ref: ${referralCode}`);
+            setAuthProcessing(true); saveProfileBtn.disabled = true; showStatusMessage("Creating profile...", "info");
+            try {
+                const generatedInviteCode = generateRandomCode(); const creationTime = serverTimestamp();
+                const initialUserData = {
+                     email: user.email,
+                     username: chosenUsername,
+                     uid: user.uid,
+                     totalCoins: SIGNUP_BONUS,
+                     totalPKR: 0, // Initialize PKR to 0
+                     referralCount: 0,
+                     referralRedeemed: false,
+                     codeRedeemedFrom: null,
+                     inviteCode: generatedInviteCode,
+                     createdAt: creationTime,
+                     provider: 'google',
+                     spinsLeft: 1,
+                     lastSpinTime: creationTime,
+                     hasWithdrawn10kPKR: false // Initialize one-time flag
+                };
+                console.log(`1: Setting initial data (+${SIGNUP_BONUS} coins)...`);
+                await set(ref(db, `users/${user.uid}`), initialUserData);
+                console.log("2: Initial DB data set.");
+                let referralMessage = ""; let finalCoins = SIGNUP_BONUS;
+                if (referralCode) {
+                    console.log(`3: Attempting referral: ${referralCode}`);
+                    try {
+                        const { newCoinsForRedeemer, referrerUid } = await redeemInviteCode(referralCode, user.uid, initialUserData);
+                        console.log("4: Referral success.");
+                        finalCoins = newCoinsForRedeemer; // This already includes the bonus
+                        await update(ref(db, `users/${user.uid}`), {
+                            referralRedeemed: true,
+                            codeRedeemedFrom: referrerUid,
+                            totalCoins: finalCoins // Update coins again explicitly
+                        });
+                        console.log("5: User record updated with redemption details.");
+                        referralMessage = ` +${REDEEMER_BONUS} referral bonus!`;
+                    } catch (redeemError) {
+                        console.warn("4: Referral error:", redeemError.message);
+                        referralMessage = ` (Referral error: ${redeeemError.message})`;
+                        finalCoins = SIGNUP_BONUS;
+                         await update(ref(db, `users/${user.uid}`), { totalCoins: finalCoins });
+                    }
+                } else {
+                    await update(ref(db, `users/${user.uid}`), { totalCoins: SIGNUP_BONUS });
+                    finalCoins = SIGNUP_BONUS;
+                }
+                totalCoins = finalCoins; // Update local state immediately
+                totalPKR = 0; // Ensure local PKR state is also 0
+                hasWithdrawn10kPKR = false; // Ensure local flag is false
+                showStatusMessage(`Profile created! +${SIGNUP_BONUS} bonus${referralMessage}`, "success", 6000);
+                completeProfileModal.style.display = "none"; // Hide modal
+                 showInterstitialAd(async () => {
+                    try {
+                        await loadUserData(user.uid);
+                        setupCoinListener(user.uid);
+                        showMainMenu(); // Ensure menu is shown after ad
+                    } catch (loadError) {
+                        console.error("Failed to load data after profile creation/ad:", loadError);
+                        showStatusMessage("Error loading profile data.", "error");
+                         // Stay on login/profile screen if data fails
+                         googleSignInPanel.style.display = 'flex'; // Or show complete profile again? Let's show login
+                         completeProfileModal.style.display = 'none';
+                         mainMenu.style.display = 'none';
+                    } finally {
+                        setAuthProcessing(false);
+                    }
+                 });
+            } catch (dbError) {
+                console.error("Error saving profile:", dbError); showStatusMessage("Error saving profile.", "error");
+                setAuthProcessing(false); saveProfileBtn.disabled = false;
+            }
+        };
+    }
+
+    googleSignInBtn.addEventListener("click", () => {
+        if (isProcessingAuth) return; console.log("Google Sign In clicked."); setAuthProcessing(true); showStatusMessage("Opening Google Sign-in...", "info", 2000);
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider).then(handleGoogleSignInSuccess).catch((error) => {
+            console.error("Google Sign-In Error:", error); let errorMsg = "Google Sign-in failed.";
+            if (error.code === 'auth/popup-closed-by-user') errorMsg = "Sign-in cancelled.";
+            else if (error.code === 'auth/network-request-failed') errorMsg = "Network error.";
+            else if (error.code === 'auth/cancelled-popup-request') return; // Do nothing, expected sometimes
+            showStatusMessage(errorMsg, "error", 4000); setAuthProcessing(false);
+        });
+    });
+
+    guestButtonAlt.addEventListener("click", () => {
+        console.log("Guest button clicked."); if (isProcessingAuth) return; setAuthProcessing(true);
+        try {
+             googleSignInPanel.style.display = "none";
+             resetAppStateToLoggedOut(); // Resets all user-specific data
+             showMainMenu();
+             showStatusMessage("Playing as Guest.", "info", 4000);
+             // Hide logged-in specific UI for guests
+             if (withdrawBtn) withdrawBtn.style.display = 'none';
+             if (inviteFriendBtn) inviteFriendBtn.style.display = 'none';
+             if (logoutBtn) logoutBtn.style.display = 'none';
+             if (settingsBtn) settingsBtn.style.display = 'none'; // Settings for profile/history
+             if (topRightStatus) topRightStatus.style.display = 'none'; // Hide coin status
+             if (whatsappBtn) whatsappBtn.style.display = 'flex'; // Still show WhatsApp
+             if (spinBtn) spinBtn.style.display = 'flex'; // Still show Spin (maybe limit rewards for guests?)
+        }
+        catch (error) { console.error("Error entering guest mode:", error); showStatusMessage("Error starting guest mode.", "error"); googleSignInPanel.style.display = "flex"; }
+        finally { setAuthProcessing(false); }
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      console.log("Auth State Changed. User:", user ? user.uid : 'null');
+      if (coinListenerUnsubscribe) { coinListenerUnsubscribe(); coinListenerUnsubscribe = null; }
+      completeProfileModal.style.display = 'none'; // Ensure profile modal is hidden on auth state change
+
+      if (user) {
+          setAuthProcessing(true);
+          try {
+              const userRef = ref(db, `users/${user.uid}`);
+              const snapshot = await get(userRef);
+              if (snapshot.exists() && snapshot.val().username) {
+                  console.log("Auth State: Existing user session with profile.");
+                   console.log("Auth State: Reloading user data and updating UI.");
+                   await loadUserData(user.uid); // This populates totalCoins, totalPKR, hasWithdrawn10kPKR etc.
+                   setupCoinListener(user.uid); // Listener setup AFTER initial load
+
+                   // Check if any modals are currently open or game is running
+                    const isAnyModalOpen = settingsModal.style.display === 'flex' ||
+                                         profileModal.style.display === 'flex' ||
+                                         inviteModal.style.display === 'flex' ||
+                                         withdrawModal.style.display === 'flex' ||
+                                         infoModal.style.display === 'flex' ||
+                                         withdrawalHistoryModal.style.display === 'flex' ||
+                                         spinWheelModal.style.display === 'flex' ||
+                                         swapModal.style.display === 'flex'; // Check the new modal
+
+                   if (mainMenu.style.display !== 'flex' && !isAnyModalOpen && gameCanvas.style.display !== 'block' && gameOverMenu.style.display !== 'flex' ) {
+                        console.log("Showing main menu as no other view is active.");
+                        showMainMenu(); // Only show main menu if not already in a modal or game/gameover/auth screens
+                   } else {
+                       console.log("Auth State: User logged in, but another view is active. Updating UI elements.");
+                       // Refresh UI elements even if menu is already visible or in a modal
+                       updateCoinPkrDisplay(); // Update the top status bar
+                       updateWithdrawalOptionStates();
+                       updateInviteButtonText(currentReferralCount);
+                       updateInviteLinkDisplay();
+                       updateSpinUI(); // Update spin UI state
+                      updateSwapModalState(); // Update swap button state if modal is open - added this call
+
+                       // Ensure logged-in specific buttons are visible if on a UI screen
+                       if (!gameStarted && !gameOver && !googleSignInPanel.style.display==='flex' && !completeProfileModal.style.display==='flex') {
+                           if (whatsappBtn) whatsappBtn.style.display = 'flex';
+                           if (spinBtn) spinBtn.style.display = 'flex';
+                           if (settingsBtn) settingsBtn.style.display = 'flex';
+                           if (topRightStatus) topRightStatus.style.display = 'inline-flex'; // Ensure coin status is visible
+                       }
+                   }
+                   checkUrlForReferral();
+
+              } else {
+                  console.warn("Auth State: User authenticated but profile incomplete.");
+                   profileUsernameInput.value = user.displayName || ""; profileReferralInput.value = "";
+                   completeProfileModal.style.display = "flex"; // Show modal
+                   googleSignInPanel.style.display = "none"; mainMenu.style.display = "none"; gameCanvas.style.display='none'; gameOverMenu.style.display='none'; // Hide others
+                    settingsModal.style.display="none"; profileModal.style.display="none"; inviteModal.style.display="none";
+                    withdrawModal.style.display="none"; infoModal.style.display="none"; withdrawalHistoryModal.style.display = "none"; spinWheelModal.style.display = "none"; swapModal.style.display = "none"; // Hide new modal
+                   topRightStatus.style.display = 'none'; // Hide coin status
+                    // Hide fixed buttons
+                   if (whatsappBtn) whatsappBtn.style.display = 'none';
+                   if (spinBtn) spinBtn.style.display = 'none';
+
+                   if(profileCompleteListener) saveProfileBtn.removeEventListener('click', profileCompleteListener);
+                   profileCompleteListener = createProfileCompletionHandler(user); saveProfileBtn.addEventListener('click', profileCompleteListener);
+              }
+          } catch (dbError) {
+              console.error("Auth State: Error checking DB:", dbError); showStatusMessage("Error verifying profile.", "error");
+              signOut(auth).catch(e => console.error("Sign out error:", e));
+          } finally { setAuthProcessing(false); }
+      } else {
+          console.log("User signed out."); resetAppStateToLoggedOut();
+          // Ensure all modals/views are hidden and only login is shown
+          googleSignInPanel.style.display="flex";
+          mainMenu.style.display="none"; gameCanvas.style.display='none'; gameOverMenu.style.display='none';
+          settingsModal.style.display="none"; profileModal.style.display="none"; inviteModal.style.display="none";
+          withdrawModal.style.display="none"; infoModal.style.display="none"; withdrawalHistoryModal.style.display = "none";
+          completeProfileModal.style.display = 'none'; spinWheelModal.style.display = 'none'; swapModal.style.display = 'none'; // Hide new modal
+
+           topRightStatus.style.display = 'none'; // Hide coin status
+          // Hide buttons on logout
+          if (whatsappBtn) whatsappBtn.style.display = 'none';
+          if (spinBtn) spinBtn.style.display = 'none';
+           // Hide elements visible only when logged in (might overlap with main menu)
+          if (logoutBtn) logoutBtn.style.display = 'none';
+          if (withdrawBtn) withdrawBtn.style.display = 'none';
+          if (inviteFriendBtn) inviteFriendBtn.style.display = 'none';
+          if (settingsBtn) settingsBtn.style.display = 'none';
+
+
+          stopBackgroundMusic(); setAuthProcessing(false);
+      }
+    });
+
+    // --- Real-time User Data Listener Setup ---
+    function setupCoinListener(userId) {
+         if (!userId) { console.error("No userId for data listener."); return; }
+         if (coinListenerUnsubscribe) { console.warn("Removing existing data listener."); coinListenerUnsubscribe(); coinListenerUnsubscribe = null; }
+         const userRefPath = `users/${userId}`;
+         const userRef = ref(db, userRefPath);
+         console.log(`Setting up user data listener for ${userId}`);
+         coinListenerUnsubscribe = onValue(userRef, (snapshot) => {
+            if (snapshot.exists()) {
+                 const userData = snapshot.val();
+                 const newCoins = userData.totalCoins ?? 0;
+                 const newPKR = userData.totalPKR ?? 0; // Get PKR
+                 const newRefCount = userData.referralCount ?? 0;
+                 const newSpinsLeft = userData.spinsLeft ?? 0;
+                 const newLastSpinTime = userData.lastSpinTime ?? 0;
+                 const newHasWithdrawn10kPKR = userData.hasWithdrawn10kPKR ?? false; // Get flag
+
+                 // Update global state only if changed
+                 let stateChanged = false;
+                 // Use loose comparison (==) for potential type differences from RTDB
+                 if (totalCoins != newCoins) { totalCoins = newCoins; stateChanged = true; }
+                 if (totalPKR != newPKR) { totalPKR = newPKR; stateChanged = true; } // Check PKR
+                 if (currentReferralCount != newRefCount) { currentReferralCount = newRefCount; stateChanged = true; }
+                 if (spinsLeft != newSpinsLeft) { spinsLeft = newSpinsLeft; stateChanged = true; }
+                 if (lastSpinTime != newLastSpinTime) {
+                      // Handle Firebase timestamp object if present
+                     lastSpinTime = (newLastSpinTime && typeof newLastSpinTime === 'object' && typeof newLastSpinTime.seconds === 'number')
+                       ? newLastSpinTime.seconds * 1000 + (newLastSpinTime.nanoseconds || 0) / 1000000
+                       : newLastSpinTime || 0; // Load lastSpinTime
+                     stateChanged = true;
+                 }
+                 if (hasWithdrawn10kPKR != newHasWithdrawn10kPKR) { hasWithdrawn10kPKR = newHasWithdrawn10kPKR; stateChanged = true; } // Check flag
+
+
+                 // Update UI only if state actually changed
+                 if (stateChanged) {
+                     console.log(`State changed: Coins=${newCoins}, PKR=${newPKR}, Refs=${newRefCount}, Spins=${newSpinsLeft}, LastSpin=${lastSpinTime}, Withdrew10k=${newHasWithdrawn10kPKR}. Updating relevant UI...`);
+
+                     updateCoinPkrDisplay(); // Centralized function for status bar
+
+                     if (finalTotalCoinsSpan && gameOverMenu.style.display === 'flex') finalTotalCoinsSpan.innerText = totalCoins;
+                      if (finalTotalPkrSpan && gameOverMenu.style.display === 'flex') finalTotalPkrSpan.innerText = totalPKR; // Update PKR on game over
+                     if (profileTotalCoinsSpan && profileModal.style.display === 'flex') profileTotalCoinsSpan.textContent = totalCoins; // Check for flex
+                     if (profileTotalPkrSpan && profileModal.style.display === 'flex') profileTotalPkrSpan.textContent = totalPKR; // Update PKR on profile modal
+                     if (profileReferralCountSpan && profileModal.style.display === 'flex') profileReferralCountSpan.textContent = currentReferralCount; // Check for flex
+
+                     updateInviteButtonText(currentReferralCount);
+                     updateWithdrawalOptionStates(); // Update withdraw buttons on coin or referral change
+                     updateSpinUI(); // Update spin UI state
+                      updateSwapModalState(); // Update swap button state if modal is open
+
+                     // Only show coin status if on a UI screen (not game/gameover/login/complete profile)
+                     // This logic is also in showMainMenu, but needed here for real-time updates
+                      if (mainMenu.style.display === 'flex' || settingsModal.style.display === 'flex' || profileModal.style.display === 'flex' || inviteModal.style.display === 'flex' || withdrawModal.style.display === 'flex' || infoModal.style.display === 'flex' || withdrawalHistoryModal.style.display === 'flex' || spinWheelModal.style.display === 'flex' || swapModal.style.display === 'flex') { // Check for flex on all modals
+                        if (topRightStatus.style.display !== 'inline-flex') {
+                            topRightStatus.style.display = 'inline-flex';
+                       }
+                     } else { // Hide if in game or auth panels
+                         topRightStatus.style.display = 'none';
+                     }
+
+                     console.log(`UI updated.`);
+                 } else {
+                    // console.log("RT Data update received, but no change in relevant state.");
+                 }
+            } else {
+                console.warn(`RT Listener: User node ${userId} no longer exists.`);
+                if (coinListenerUnsubscribe) { coinListenerUnsubscribe(); coinListenerUnsubscribe = null; }
+                signOut(auth).catch(e => console.error("Sign out error on missing node:", e));
+            }
+         }, (error) => {
+             console.error("Firebase user data listener error:", error); showStatusMessage("Data sync error.", "error");
+             if (coinListenerUnsubscribe) { coinListenerUnsubscribe(); coinListenerUnsubscribe = null; }
+         });
+     }
+
+    // Update Coin/PKR display in top right
+    function updateCoinPkrDisplay() {
+        if (menuCoinCountSpan) menuCoinCountSpan.innerText = totalCoins;
+        // Removed "PKR:" label here, it's in HTML structure now
+        if (menuPkrCountSpan) menuPkrCountSpan.innerText = totalPKR;
+    }
+
+    // --- Reset & Load Data ---
+    function resetAppStateToLoggedOut() {
+        console.log("Resetting app state to logged-out...");
+        if (coinListenerUnsubscribe) { coinListenerUnsubscribe(); coinListenerUnsubscribe = null; }
+        totalCoins = 0; totalPKR = 0; hasWithdrawn10kPKR = false; // Reset PKR and flag
+        currentUserInviteCode = null; currentUsername = null; currentReferralCount = 0; currentJoinedDate = null;
+        spinsLeft = 0; lastSpinTime = 0; // Reset spin state
+        gameStarted = false; gameOver = false; score = 0; if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = null;
+        stopBackgroundMusic();
+        updateCoinPkrDisplay(); // Reset Coin/PKR display
+        if (finalTotalCoinsSpan) finalTotalCoinsSpan.innerText = "0";
+        if (finalTotalPkrSpan) finalTotalPkrSpan.innerText = "0"; // Reset PKR on game over
+        if (sessionCoinCountSpan) sessionCoinCountSpan.innerText = "0";
+        updateInviteButtonText(0); if (yourInviteLinkDisplay) yourInviteLinkDisplay.textContent = "N/A (Log in)";
+        if (profileUsernameSpan) profileUsernameSpan.textContent = "..."; if (profileEmailSpan) profileEmailSpan.textContent = "...";
+        if (profileTotalCoinsSpan) profileTotalCoinsSpan.textContent = "0";
+        if (profileTotalPkrSpan) profileTotalPkrSpan.textContent = "0"; // Reset PKR on profile
+        if (profileReferralCountSpan) profileReferralCountSpan.textContent = "0";
+        if (profileInviteCodeSpan) profileInviteCodeSpan.textContent = "..."; if (profileJoinedDateSpan) profileJoinedDateSpan.textContent = "...";
+        mario = null; obstacles = []; coins = []; isProcessingAuth = false;
+        updateSpinUI(); // Reset spin UI on logout
+        updateSwapModalState(); // Reset swap UI on logout
+        updateWithdrawalOptionStates(); // Reset withdrawal options on logout
+        topRightStatus.style.display = 'none'; // Hide coin status
+
+        console.log("App state reset complete.");
+    }
+
+    function loadUserData(userId) {
+       return new Promise((resolve, reject) => {
+           if (!userId) {
+               console.error("loadUserData: No userId.");
+               showStatusMessage("Cannot load data.", "error");
+               return reject(new Error("No userId provided"));
+           }
+           console.log(`Loading data for: ${userId}`);
+           const userRef = ref(db, `users/${userId}`);
+           get(userRef).then(snapshot => {
+               if (snapshot.exists()) {
+                   const userData = snapshot.val();
+                   console.log("User data fetched:", userData);
+                   totalCoins = userData.totalCoins || 0;
+                   totalPKR = userData.totalPKR || 0; // Load PKR
+                   currentUsername = userData.username || 'Gamer';
+                   currentReferralCount = userData.referralCount || 0;
+                   currentUserInviteCode = userData.inviteCode;
+                   spinsLeft = userData.spinsLeft ?? 0; // Load spinsLeft
+                   hasWithdrawn10kPKR = userData.hasWithdrawn10kPKR ?? false; // Load flag
+                   // Ensure lastSpinTime is treated as a number (milliseconds)
+                   lastSpinTime = (userData.lastSpinTime && typeof userData.lastSpinTime === 'object' && typeof userData.lastSpinTime.seconds === 'number')
+                       ? userData.lastSpinTime.seconds * 1000 + (userData.lastSpinTime.nanoseconds || 0) / 1000000
+                       : userData.lastSpinTime || 0; // Load lastSpinTime
+
+                   if (userData.createdAt) {
+                       if (typeof userData.createdAt === 'number') {
+                           try { currentJoinedDate = new Date(userData.createdAt).toLocaleDateString(); }
+                           catch (e) { console.warn("Error parsing numeric timestamp:", e); currentJoinedDate = "N/A"; }
+                       } else if (typeof userData.createdAt === 'object' && userData.createdAt.seconds) {
+                           try { currentJoinedDate = new Date(userData.createdAt.seconds * 1000).toLocaleDateString(); }
+                           catch (e) { console.warn("Error parsing timestamp object:", e); currentJoinedDate = "N/A"; }
+                       } else {
+                           console.warn("Unrecognized createdAt format:", userData.createdAt); currentJoinedDate = "N/A";
+                       }
+                   } else { currentJoinedDate = "N/A"; }
+
+                   updateCoinPkrDisplay(); // Update the top status bar
+                   updateInviteButtonText(currentReferralCount);
+                   updateInviteLinkDisplay();
+                   updateWithdrawalOptionStates();
+                   updateSpinUI(); // Update spin UI after loading
+                   updateSwapModalState(); // Update swap UI after loading
+
+
+                   if (!currentUserInviteCode && auth.currentUser?.uid === userId) {
+                        console.log("Generating invite code...");
+                        const newCode = generateRandomCode();
+                        set(ref(db, `users/${userId}/inviteCode`), newCode)
+                           .then(() => {
+                               console.log("New invite code saved:", newCode);
+                               currentUserInviteCode = newCode;
+                               updateInviteLinkDisplay();
+                               if (profileModal.style.display === 'flex') profileInviteCodeSpan.textContent = newCode; // Check for flex
+                               resolve();
+                           })
+                           .catch(e => {
+                               console.error("Error saving invite code:", e);
+                               if(yourInviteLinkDisplay) yourInviteLinkDisplay.textContent = "Error";
+                               resolve();
+                           });
+                   } else {
+                       resolve();
+                   }
+               } else {
+                   console.error(`CRITICAL: User node missing: ${userId}. Logging out.`);
+                   showStatusMessage("Profile data missing! Logging out.", "error", 5000);
+                   signOut(auth).catch(e => console.error("Sign out error on missing node:", e));
+                   reject(new Error(`User node missing: ${userId}`));
+               }
+           }).catch(error => {
+               console.error("Error fetching user data:", error);
+               showStatusMessage("Failed to load user data.", "error");
+               reject(error);
+           });
+       });
+    }
+
+    function checkUrlForReferral() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search); const refCode = urlParams.get('ref');
+            if (refCode) { const cleanCode = refCode.trim().toUpperCase(); console.log("URL Referral code:", cleanCode); if (auth.currentUser && redeemCodeInput) { redeemCodeInput.value = cleanCode; console.log("Referral code pre-filled."); showStatusMessage(`Ready to redeem code: ${cleanCode}?`, "info", 4000); } const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname; window.history.replaceState({path:cleanUrl},'',cleanUrl); console.log("Cleaned URL."); }
+        } catch (e) { console.error("Error processing URL params:", e); }
+    }
+
+    // --- UI Update & View Navigation ---
+    function updateInviteButtonText(count) { inviteFriendBtn.innerText = `Invite (${count || 0} Refs)`; }
+    function updateSoundButton() {
+        toggleSoundBtn.textContent=`Sound: ${soundEnabled?'On':'Off'}`;
+        const onGradient="linear-gradient(145deg, #4caf50, #388e3c)";
+        const offGradient="linear-gradient(145deg, #9e9e9e, #757575)";
+        const onBorder='#1b5e20';
+        const offBorder='#424242';
+        toggleSoundBtn.style.background=soundEnabled?onGradient:offGradient;
+        toggleSoundBtn.style.borderBottomColor=soundEnabled?onBorder:offBorder;
+    }
+    function updateInviteLinkDisplay() { if (yourInviteLinkDisplay) { if (currentUserInviteCode && auth.currentUser) yourInviteLinkDisplay.textContent = `${baseInviteUrl}?ref=${currentUserInviteCode}`; else if (auth.currentUser) yourInviteLinkDisplay.textContent = "Generating link..."; else yourInviteLinkDisplay.textContent = "Log in to get your invite link"; } if (profileInviteCodeSpan && profileModal.style.display === 'flex') profileInviteCodeSpan.textContent = currentUserInviteCode || '...'; } // Check for flex
+
+    function showMainMenu() {
+        console.log("Showing Main Menu...");
+        gameStarted = false; gameOver = false; if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        stopBackgroundMusic(); // Stop any previous music
+
+        // Hide all non-menu/non-auth elements and all modals explicitly
+        googleSignInPanel.style.display = "none";
+        completeProfileModal.style.display = 'none';
+        gameOverMenu.style.display = "none";
+        gameCanvas.style.display = "none";
+        settingsModal.style.display = "none";
+        profileModal.style.display = "none";
+        inviteModal.style.display = "none";
+        withdrawModal.style.display = "none";
+        infoModal.style.display = "none";
+        withdrawalHistoryModal.style.display = "none";
+        spinWheelModal.style.display = "none";
+        swapModal.style.display = "none"; // Hide new modal
+
+
+        mainMenu.style.display = "flex"; // Show Main Menu using flex
+
+        const user = auth.currentUser;
+        if (user && currentUsername) {
+             console.log("User logged in, showing full menu.");
+             logoutBtn.style.display = 'inline-flex';
+             withdrawBtn.style.display = 'inline-flex';
+             inviteFriendBtn.style.display = 'inline-flex';
+             settingsBtn.style.display = 'flex'; // Settings button uses flex layout
+             topRightStatus.style.display = 'inline-flex'; // Coin status uses inline-flex
+
+             updateCoinPkrDisplay(); // Update the top status bar
+             updateInviteButtonText(currentReferralCount);
+             updateInviteLinkDisplay();
+             updateWithdrawalOptionStates();
+             updateSpinUI(); // Update spin UI on menu load
+             updateSwapModalState(); // Update swap UI on menu load
+             if (whatsappBtn) whatsappBtn.style.display = 'flex'; // Show WhatsApp button
+             if (spinBtn) spinBtn.style.display = 'flex'; // Show Spin button
+
+        } else {
+             console.log("Guest/Incomplete profile, showing limited menu.");
+             logoutBtn.style.display = 'none';
+             withdrawBtn.style.display = 'none';
+             inviteFriendBtn.style.display = 'none';
+             settingsBtn.style.display = 'none';
+             topRightStatus.style.display = 'none'; // Hide coin status for guests
+
+             updateCoinPkrDisplay(); // Still update local state display (will be 0/0)
+             updateInviteButtonText(0);
+             updateInviteLinkDisplay();
+             updateWithdrawalOptionStates(); // This will disable all options if no user/refs
+             // Show buttons visible to guests (if any, based on design - WhatsApp/Spin currently)
+             if (whatsappBtn) whatsappBtn.style.display = 'flex';
+             if (spinBtn) spinBtn.style.display = 'flex';
+        }
+
+        playBackgroundMusic();
+        console.log("showMainMenu finished.");
+    }
+
+    function showGameOverMenu() {
+        console.log("Showing Game Over Menu"); gameStarted = false; gameOver = true;
+        sessionCoinCountSpan.innerText = score;
+        finalTotalCoinsSpan.innerText = auth.currentUser ? totalCoins : 0;
+        finalTotalPkrSpan.innerText = auth.currentUser ? totalPKR : 0; // Update PKR on game over screen
+        gameCanvas.style.display='none';
+        mainMenu.style.display="none"; // Hide main menu
+
+        // Hide all modals explicitly
+        settingsModal.style.display = "none";
+        profileModal.style.display = "none";
+        inviteModal.style.display = "none";
+        withdrawModal.style.display = "none";
+        infoModal.style.display = "none";
+        withdrawalHistoryModal.style.display = "none";
+        spinWheelModal.style.display = "none";
+        swapModal.style.display = "none"; // Hide new modal
+        topRightStatus.style.display = 'none'; // Hide coin status
+
+
+        gameOverMenu.style.display="flex"; // Show Game Over Menu using flex
+
+        // Show fixed buttons again
+        if (whatsappBtn) whatsappBtn.style.display = 'flex';
+        if (spinBtn) spinBtn.style.display = 'flex';
+        stopBackgroundMusic();
+        playSound(gameOverSound);
+    }
+
+    // --- Settings & Profile Modals ---
+    settingsBtn.addEventListener("click", () => { if (!auth.currentUser || !currentUsername) { showStatusMessage("Log in & complete profile.", "info"); return; } updateSoundButton(); settingsModal.style.display = "flex"; }); // Use flex
+    closeSettings.addEventListener("click", () => { settingsModal.style.display = "none"; });
+    toggleSoundBtn.addEventListener("click", () => { soundEnabled = !soundEnabled; updateSoundButton(); if (!soundEnabled) stopBackgroundMusic(); else if (mainMenu.style.display==='flex'||(gameStarted&&!gameOver)) playBackgroundMusic(); showStatusMessage(`Sound ${soundEnabled ? 'On' : 'Off'}`, 'info', 1500); });
+    customerService.addEventListener("click", () => { window.open("https://wa.me/923019022815", "_blank"); });
+    profileBtn.addEventListener('click', showProfileModal);
+    closeProfileModalBtn.addEventListener('click', () => { profileModal.style.display = 'none'; });
+    function showProfileModal() { const user = auth.currentUser; if (!user || !currentUsername) { showStatusMessage("Log in & complete profile.", "error"); return; } profileUsernameSpan.textContent = currentUsername || '...'; profileEmailSpan.textContent = user.email || 'N/A'; profileTotalCoinsSpan.textContent = totalCoins; profileTotalPkrSpan.textContent = totalPKR; profileReferralCountSpan.textContent = currentReferralCount; profileInviteCodeSpan.textContent = currentUserInviteCode || '...'; profileJoinedDateSpan.textContent = currentJoinedDate || '...'; settingsModal.style.display = 'none'; profileModal.style.display = 'flex'; } // Use flex
+
+    // --- Withdrawal History ---
+    withdrawalHistoryBtn.addEventListener('click', showWithdrawalHistory);
+    closeHistoryModalBtn.addEventListener('click', () => { withdrawalHistoryModal.style.display = 'none'; });
+
+    async function showWithdrawalHistory() {
+        const user = auth.currentUser;
+        if (!user) {
+            showStatusMessage("Log in first.", "error");
+            return;
+        }
+        historyListDiv.innerHTML = '<p class="no-history">Loading...</p>';
+        settingsModal.style.display = 'none'; // Hide settings modal
+        withdrawalHistoryModal.style.display = 'flex'; // Use flex to show modal
+        console.log(`Fetching withdrawal history for UID: ${user.uid}. Ensure Firebase rules allow read and '.indexOn': ['uid'] is set for 'withdrawRequests'.`);
+
+        try {
+            const reqRef = ref(db, 'withdrawRequests');
+            const q = query(reqRef, orderByChild('uid'), equalTo(user.uid));
+            const snapshot = await get(q); // snapshot is a QuerySnapshot
+
+            historyListDiv.innerHTML = ''; // Clear loading message
+
+            if (snapshot.empty) {
+                console.log("Query for withdrawal history returned no documents.");
+                historyListDiv.innerHTML = '<p class="no-history">No withdrawal history found.</p>';
+            } else {
+                console.log(`Withdrawal history query returned ${snapshot.size} document(s).`);
+                try { // <-- Inner try block for processing
+                    const data = [];
+                     // Use childSnapshot for clarity in RTDB iteration
+                    snapshot.forEach(childSnapshot => {
+                        const itemData = childSnapshot.val();
+                        if (typeof itemData === 'object' && itemData !== null) {
+                             // Add pkrAmount if not present (for older coin-only withdrawals)
+                             if (itemData.pkrAmount === undefined && itemData.withdrawalAmountCoins !== undefined) {
+                                 itemData.pkrAmount = itemData.withdrawalAmountCoins / COINS_PER_PKR_UNIT; // Use corrected constant
+                             }
+                            data.push({ key: childSnapshot.key, ...itemData });
+                        } else {
+                            console.warn("Encountered non-object value in withdrawal history for doc ID:", childSnapshot.key, itemData);
+                        }
+                    });
+
+                    // Sort data by timestamp (descending)
+                    data.sort((a, b) => {
+                         // Handle different timestamp formats (RTDB number or Firestore object from serverTimestamp())
+                        const tA = (typeof a.timestamp === 'object' && a.timestamp && typeof a.timestamp.seconds === 'number') ? (a.timestamp.seconds * 1000 + (a.timestamp.nanoseconds || 0) / 1000000) : (typeof a.timestamp === 'number' ? a.timestamp : 0);
+                        const tB = (typeof b.timestamp === 'object' && b.timestamp && typeof b.timestamp.seconds === 'number') ? (b.timestamp.seconds * 1000 + (b.timestamp.nanoseconds || 0) / 1000000) : (typeof b.timestamp === 'number' ? b.timestamp : 0); // Corrected typo here
+                        return tB - tA; // Sort descending
+                    });
+                    console.log("Processed and sorted history data:", data);
+
+
+                    if (data.length === 0) {
+                        historyListDiv.innerHTML = '<p class="no-history">No valid history items to display after processing.</p>';
+                    } else {
+                        data.forEach(item => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.classList.add('history-item');
+
+                            let date = null;
+                            if (item.timestamp) {
+                                if (typeof item.timestamp === 'object' && item.timestamp && typeof item.timestamp.seconds === 'number') { // Firestore-like Timestamp object
+                                    date = new Date(item.timestamp.seconds * 1000 + (item.timestamp.nanoseconds || 0) / 1000000);
+                                } else if (typeof item.timestamp === 'number') { // RTDB serverTimestamp (milliseconds)
+                                    date = new Date(item.timestamp);
+                                }
+                            }
+                            const fDate = date ? date.toLocaleString() : 'N/A';
+                            const status = (item.status || 'pending').toLowerCase();
+                            let sClass = 'status-pending';
+                            if (status === 'approved') sClass = 'status-approved';
+                            else if (status === 'rejected') sClass = 'status-rejected';
+
+                            // Use the item's pkrAmount or calculate from coins if missing
+                            const pkrAmount = item.pkrAmount !== undefined ? item.pkrAmount : (item.withdrawalAmountCoins !== undefined ? item.withdrawalAmountCoins / COINS_PER_PKR_UNIT : '?'); // Use corrected constant
+                            const coinsAmount = item.withdrawalAmountCoins !== undefined ? item.withdrawalAmountCoins : '?';
+
+                            itemDiv.innerHTML = `
+<div class="details">
+    <span>${pkrAmount} Rs (${coinsAmount} Coins)</span> <!-- Changed PKR to Rs -->
+    <span>Method: ${item.paymentMethod || 'N/A'}</span>
+    <span>Acc: ${item.accountNumber || 'N/A'} (${item.accountHolderName || 'N/A'})</span>
+</div>
+<div class="status ${sClass}">${status}</div>
+<div class="date">${fDate}</div>`;
+                            historyListDiv.appendChild(itemDiv);
+                        });
+                    }
+                } catch (processingError) { // <-- Catch for processing errors
+                    console.error("Error processing withdrawal history data:", processingError);
+                    historyListDiv.innerHTML = '<p class="no-history" style="color: red;">Error processing history data. Check console.</p>';
+                    showStatusMessage("Error displaying history.", "error");
+                }
+            }
+        } catch (fetchError) { // <-- Catch for fetch errors (rules, index, network)
+            console.error("Error fetching withdrawal history:", fetchError);
+             // Provide a more specific message hint for the user
+            historyListDiv.innerHTML = '<p class="no-history" style="color: red;">Error loading history.</p><p class="no-history" style="font-size:0.9em; color:orange;">(This might require correcting database rules or indexing in Firebase console. Check the browser console for technical details.)</p>';
+            showStatusMessage("Could not load withdrawal history.", "error");
+        }
+         // Moved modal visibility here to ensure it's shown even on fetch error
+        settingsModal.style.display = 'none';
+        withdrawalHistoryModal.style.display = 'flex';
+    }
+
+
+    // --- Invite Logic ---
+    function generateRandomCode() { return Math.random().toString(36).substring(2, 8).toUpperCase(); }
+    async function redeemInviteCode(code, currentUserId, currentUserData) { console.log(`Redeeming: ${code} by ${currentUserId}`); if (!currentUserId) throw new Error("User ID missing."); if (!code) throw new Error("Enter code."); code = code.trim().toUpperCase(); if (currentUserData?.inviteCode && code === currentUserData.inviteCode) throw new Error("Cannot redeem own code."); if (currentUserData?.referralRedeemed === true) throw new Error("Already redeemed code."); const usersRef = ref(db, "users"); const q = query(usersRef, orderByChild("inviteCode"), equalTo(code)); const snap = await get(q); if (!snap.exists()) throw new Error("Invalid code."); let refUid = null, refData = null; snap.forEach(cs => { if (cs.key !== currentUserId) { refUid = cs.key; refData = cs.val(); } else console.warn("Query found self-match."); }); if (!refUid || !refData) throw new Error("Invalid code."); console.log(`Found referrer: ${refUid}`); const refRefCount = refData.referralCount || 0; const refCoins = refData.totalCoins || 0; const redeemUserCoins = currentUserData.totalCoins || 0; const newRedeemerTotal = redeemUserCoins + REDEEMER_BONUS; const newReferrerTotal = refCoins + REFERRER_BONUS; const newReferrerCount = refRefCount + 1; console.log(`Bonuses: Redeemer +${REDEEMER_BONUS}, Referrer +${REFERRER_BONUS}`); const updates = {}; updates[`/users/${currentUserId}/totalCoins`] = newRedeemerTotal;
+     updates[`/users/${currentUserId}/referralRedeemed`] = true;
+     updates[`/users/${currentUserId}/codeRedeemedFrom`] = refUid;
+     updates[`/users/${refUid}/totalCoins`] = newReferrerTotal; updates[`/users/${refUid}/referralCount`] = newReferrerCount; await update(ref(db), updates); console.log("DB updated for referral redemption."); return { newCoinsForRedeemer: newRedeemerTotal, referrerUid: refUid }; }
+    inviteFriendBtn.addEventListener("click", () => { if (!auth.currentUser || !currentUsername) { showStatusMessage("Log in & complete profile.", "error"); return; } updateInviteLinkDisplay(); showInterstitialAd(() => { console.log("Ad callback: Showing invite modal."); inviteModal.style.display = "flex"; }); }); // Use flex
+    closeInviteModal.addEventListener("click", () => { inviteModal.style.display = "none"; });
+    copyInviteCode.addEventListener("click", () => { const link = yourInviteLinkDisplay.textContent; if (link && link.startsWith('http') && currentUserInviteCode) { navigator.clipboard.writeText(link).then(() => showStatusMessage("Link copied!", "success")).catch(err => { showStatusMessage("Failed to copy.", "error"); console.error('Copy error:', err); try { const r=document.createRange(); r.selectNodeContents(yourInviteLinkDisplay); const s=window.getSelection(); s.removeAllRanges(); s.addRange(r); showStatusMessage("Link selected.", "info", 4000); } catch (e) { console.error("Select fallback fail:", e); } }); } else { showStatusMessage("Link not ready.", "error"); console.warn("Invalid link copy attempt:", link); } });
+    redeemCodeBtn.addEventListener("click", async () => { const code = redeemCodeInput.value.trim().toUpperCase(); if (!code) { showStatusMessage("Enter code.", "error"); return; } const user = auth.currentUser; if (!user || !currentUsername) { showStatusMessage("Log in & complete profile.", "error"); return; } redeemCodeBtn.disabled = true; showStatusMessage("Redeeming...", "info"); try { const userRef = ref(db, `users/${user.uid}`); const snap = await get(userRef); if (!snap.exists()) throw new Error("User data not found."); const userData = snap.val();
+         const { newCoinsForRedeemer, referrerUid } = await redeemInviteCode(code, user.uid, userData);
+         console.log(`User ${user.uid} redeemed from ${referrerUid}`); showStatusMessage(`Code redeemed! +${REDEEMER_BONUS} coins.`, "success", 5000); inviteModal.style.display = "none"; redeemCodeInput.value = ""; } catch (e) { console.error("Redeem error:", e); showStatusMessage(`Error: ${e.message}`, "error", 4000); } finally { redeemCodeBtn.disabled = false; } });
+
+    // --- Withdraw Logic ---
+    let selectedWithdrawCoins = 0; let selectedWithdrawPKR = 0;
+
+    function updateWithdrawalOptionStates() {
+        const user = auth.currentUser;
+        const isLoggedInAndProfileComplete = user && currentUsername;
+
+        redeemOptionsDiv.querySelectorAll('.redeem-option').forEach(button => {
+            const coinsNeeded = parseInt(button.dataset.coins, 10);
+            const isOneTime10kOption = (coinsNeeded === 10000);
+
+            // Reset states
+            button.classList.remove('available-option', 'redeemed-once');
+            button.disabled = false; // Start enabled, then disable if needed
+            button.title = "";
+
+
+            if (!isLoggedInAndProfileComplete) {
+                button.disabled = true;
+                button.title = "Log in & complete profile to withdraw.";
+                return;
+            }
+
+             // Handle the one-time 10k option separately
+             if (isOneTime10kOption) {
+                 if (hasWithdrawn10kPKR) {
+                     button.disabled = true;
+                     button.classList.add('redeemed-once');
+                     button.title = "This one-time option has already been used.";
+                      return; // Stop processing this button if already used
+                 }
+                  // Fall through to check coins/referrals for the first-time 10k withdrawal
+             }
+
+
+            const referralsNeeded = withdrawalRequirements[coinsNeeded] ?? 999999;
+
+
+            if (totalCoins >= coinsNeeded) {
+                // Has enough coins
+                if (currentReferralCount < referralsNeeded) {
+                     button.disabled = true; // Disable if coins are enough but refs are not
+                    button.title = `Need ${referralsNeeded - currentReferralCount} more refs (${currentReferralCount}/${referralsNeeded})`;
+                } else {
+                     button.disabled = false; // Enable if both coins and refs are enough
+                    button.title = `Meets requirements: ${coinsNeeded} coins & ${referralsNeeded} refs`;
+                    button.classList.add('available-option');
+                }
+            } else {
+                // Does not have enough coins
+                button.disabled = true;
+                button.title = `Need ${coinsNeeded - totalCoins} more coins`;
+                 // Optionally add referral info even if coins are missing
+                 if (currentReferralCount < referralsNeeded) {
+                     button.title += ` and ${referralsNeeded - currentReferralCount} more refs (${currentReferralCount}/${referralsNeeded})`;
+                 }
+            }
+        });
+    }
+
+    withdrawBtn.addEventListener("click", () => {
+        if (!auth.currentUser || !currentUsername) { showStatusMessage("Log in & complete profile.", "error"); return; }
+        showInterstitialAd(() => {
+            console.log("Ad callback: Showing Withdraw modal.");
+            updateWithdrawalOptionStates(); // Make sure states are fresh
+            redeemOptionsDiv.style.display="block"; redeemFormDiv.style.display="none"; // Ensure options are visible first
+            referralTaskDisplay.innerHTML = ""; // Clear previous task display
+            referralTaskDisplay.className = 'referralTaskDisplay'; // Reset classes
+            redeemDetailsForm.reset();
+            accountHolderName.value = ""; // Ensure fields are cleared
+            accountNumber.value = "";
+            document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => radio.checked = false);
+            redeemSubmitBtn.disabled=false;
+            redeemSubmitBtn.textContent="Submit Request";
+            withdrawModal.style.display="flex"; // Use flex to show modal
+        });
+    });
+    closeWithdraw.addEventListener("click", () => { withdrawModal.style.display = "none"; });
+
+    redeemOptionsDiv.querySelectorAll('.redeem-option').forEach(button => {
+        button.addEventListener('click', () => {
+             if (button.disabled) {
+                 showStatusMessage(button.title || "Insufficient coins, referrals, or option used.", "error", 4000);
+                 return;
+             }
+
+            selectedWithdrawCoins = parseInt(button.dataset.coins, 10);
+            selectedWithdrawPKR = parseInt(button.dataset.pkr, 10);
+            const referralsNeeded = withdrawalRequirements[selectedWithdrawCoins];
+            const isOneTime10kOption = (selectedWithdrawCoins === 10000);
+
+
+            if(isNaN(selectedWithdrawCoins) || isNaN(selectedWithdrawPKR) || selectedWithdrawCoins <= 0 || (isOneTime10kOption ? false : (referralsNeeded === undefined))) { // 10k doesn't strictly need 'referralsNeeded' check here, but others do.
+                console.error("Invalid button data or missing requirement:", button.dataset);
+                showStatusMessage("Error selecting option.", "error"); return;
+            }
+
+            // Final check before showing form - based on *current* global state
+            const requiredRefs = isOneTime10kOption ? 5 : referralsNeeded; // 10k specifically requires 5 invites for the first time
+            if (totalCoins < selectedWithdrawCoins || currentReferralCount < requiredRefs) {
+                 showStatusMessage(button.title || "Requirements not met.", "error", 4000);
+                 updateWithdrawalOptionStates(); // Re-evaluate in case state changed while modal was open
+                 return; // Prevent showing the form if requirements are truly not met
+            }
+
+            // Check if the one-time option is already used
+            if (isOneTime10kOption && hasWithdrawn10kPKR) {
+                 showStatusMessage("This one-time option has already been used.", "error", 4000);
+                 updateWithdrawalOptionStates(); // Re-evaluate
+                 return;
+            }
+
+
+            console.log(`Selected: ${selectedWithdrawCoins} coins (${selectedWithdrawPKR} PKR). Requirements met.`);
+
+            const hasEnoughReferrals = currentReferralCount >= requiredRefs;
+            referralTaskDisplay.className = 'referralTaskDisplay';
+             // Update referral task display based on the SPECIFIC requirement for the selected option
+            if (hasEnoughReferrals) {
+                referralTaskDisplay.classList.add('task-complete');
+                referralTaskDisplay.innerHTML = `<strong>Task:</strong> Invite ${requiredRefs} friends <span class="status-icon">✔</span><br>(Completed: ${currentReferralCount}/${requiredRefs} referrals)`;
+            } else {
+                referralTaskDisplay.classList.add('task-incomplete');
+                referralTaskDisplay.innerHTML = `<strong>Task:</strong> Invite ${requiredRefs} friends <span class="status-icon">❌</span><br>(Required: ${requiredRefs - currentReferralCount} more. Have: ${currentReferralCount})`;
+            }
+
+
+            redeemOptionsDiv.style.display='none'; // Hide options
+            redeemFormDiv.style.display='block'; // Show form
+            // Changed "PKR" to "Rs"
+            redeemFormDiv.querySelector('h3').textContent = `Redeem ${selectedWithdrawCoins} Coins for ${selectedWithdrawPKR} Rs`;
+        });
+    });
+
+    redeemDetailsForm.addEventListener('submit', (e) => {
+         e.preventDefault();
+
+         const isOneTime10kOption = (selectedWithdrawCoins === 10000);
+         const requiredReferrals = isOneTime10kOption ? 5 : withdrawalRequirements[selectedWithdrawCoins];
+
+         if (requiredReferrals === undefined || currentReferralCount < requiredReferrals) {
+             showStatusMessage(`Referral task incomplete! Need ${requiredReferrals - currentReferralCount} more friends.`, "error", 5000);
+             // Update the task display visually if needed
+             referralTaskDisplay.classList.remove('task-complete');
+             referralTaskDisplay.classList.add('task-incomplete');
+             referralTaskDisplay.innerHTML = `<strong>Task:</strong> Invite ${requiredReferrals} friends <span class="status-icon">❌</span><br>(Required: ${requiredReferrals - currentReferralCount} more. Have: ${currentReferralCount})`;
+             return;
+         }
+
+         const name = accountHolderName.value.trim();
+         const number = accountNumber.value.trim();
+         const paymentMethodInput = document.querySelector('input[name="paymentMethod"]:checked');
+
+         if(!name || !number || !paymentMethodInput){ showStatusMessage("Please fill all details.", "error"); return; }
+         if(!/^\d+$/.test(number)) { showStatusMessage("Account number is invalid.", "error"); return; }
+
+         if(totalCoins < selectedWithdrawCoins){ showStatusMessage(`Insufficient coins. Need ${selectedWithdrawCoins} (${totalCoins}).`, "error", 5000); withdrawModal.style.display = "none"; return; }
+
+         const user=auth.currentUser; if(!user){ showStatusMessage("Authentication error.", "error"); withdrawModal.style.display="none"; return; }
+
+         // Check one-time flag again immediately before submission (handles edge case where flag changes while form is open)
+         if (isOneTime10kOption && hasWithdrawn10kPKR) {
+              showStatusMessage("This one-time option has already been used.", "error", 4000);
+              withdrawModal.style.display = "none"; // Close the modal as it's invalid now
+              updateWithdrawalOptionStates(); // Update UI outside modal
+              return;
+         }
+
+
+         const method = paymentMethodInput.value; const timestamp = serverTimestamp();
+         const requestData = { uid: user.uid, email: user.email || "N/A", username: currentUsername || "N/A", withdrawalAmountCoins: selectedWithdrawCoins, pkrAmount: selectedWithdrawPKR, accountHolderName: name, accountNumber: number, paymentMethod: method, status: "pending", referralsAtRequest: currentReferralCount, timestamp: timestamp };
+
+         console.log("Attempting to save withdrawal request:", JSON.stringify(requestData, null, 2));
+
+         redeemSubmitBtn.disabled = true; redeemSubmitBtn.textContent = "Submitting..."; showStatusMessage("Processing request...", "info");
+
+         const updates = {};
+         const newTotalCoins = totalCoins - selectedWithdrawCoins;
+         const newRequestKey = push(ref(db, 'withdrawRequests')).key;
+
+         updates[`/users/${user.uid}/totalCoins`] = newTotalCoins;
+         updates[`/withdrawRequests/${newRequestKey}`] = requestData;
+
+         // **Crucial:** Atomically update the one-time flag IF it's the 10k option and hasn't been used
+         if (isOneTime10kOption && !hasWithdrawn10kPKR) {
+             updates[`/users/${user.uid}/hasWithdrawn10kPKR`] = true;
+         }
+
+
+         console.log("Update object for Firebase:", JSON.stringify(updates, null, 2));
+
+         update(ref(db), updates).then(() => {
+            console.log(`Withdraw request ${newRequestKey} submitted and user coins updated for UID: ${requestData.uid}. New coin total on server: ${newTotalCoins}`);
+            showStatusMessage(`Request submitted successfully! Status: Pending.`, "success", 5000);
+            withdrawModal.style.display = "none";
+         }).catch(err => {
+            showStatusMessage("Submission failed: "+err.message, "error", 5000);
+            console.error("Withdraw submission error:", err);
+            redeemSubmitBtn.disabled = false;
+            redeemSubmitBtn.textContent = "Submit Request";
+         });
+    });
+
+    // --- Info Modal ---
+    infoBtn.addEventListener("click", () => { showInterstitialAd(() => { console.log("Ad callback: Showing Info modal."); infoModal.style.display = "flex"; }); }); // Use flex
+    closeInfo.addEventListener("click", () => { infoModal.style.display = "none"; });
+
+    // --- Logout ---
+    logoutBtn.addEventListener("click", () => { console.log("Logout clicked."); if (isProcessingAuth) return; setAuthProcessing(true); showStatusMessage("Logging out...", "info", 1500); signOut(auth).then(() => { showStatusMessage("Logged out.", "info"); console.log("SignOut ok."); }).catch((e) => { showStatusMessage("Logout error: "+e.message, "error"); console.error("Sign out error:", e); setAuthProcessing(false); }); });
+
+
+    // --- Spin Wheel Logic ---
+
+    function createWheelSegments() {
+        wheelSvg.innerHTML = ''; // Clear previous segments
+        const radius = 200; // Based on viewBox 400x400
+        const centerX = 200;
+        const centerY = 200;
+        const numSegments = spinWheelRewards.length;
+        const degreesPerSegment = 360 / numSegments;
+
+
+        spinWheelRewards.forEach((reward, index) => {
+            const startAngle = index * degreesPerSegment;
+            const endAngle = startAngle + degreesPerSegment;
+
+             // Add a subtle line/separator - easier with paths
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            const startAngleRad = startAngle * Math.PI / 180;
+            const endAngleRad = endAngle * Math.PI / 180;
+
+             // Arc parameters: Rx Ry x-axis-rotation Large-arc-flag Sweep-flag X Y
+            const d = [
+                `M ${centerX},${centerY}`, // Start at the center
+                `L ${centerX + radius * Math.cos(startAngleRad)},${centerY + radius * Math.sin(startAngleRad)}`, // Line to outer arc start
+                `A ${radius},${radius} 0 0,1 ${centerX + radius * Math.cos(endAngleRad)},${centerY + radius * Math.sin(endAngleRad)}`, // Arc to outer arc end
+                `Z` // Close path back to center
+            ].join(' ');
+
+            path.setAttribute('d', d);
+            path.setAttribute('fill', reward.color); // Segment color
+            path.setAttribute('stroke', '#333'); // Dark border
+            path.setAttribute('stroke-width', '1');
+            wheelSvg.appendChild(path); // Append paths first
+
+            // Add text - calculate position and rotate
+            const angleForText = startAngle + degreesPerSegment / 2; // Angle for text (center of segment)
+            const textRadius = radius * 0.75; // Position text slightly inwards
+
+            const textGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            // Rotate group so the text drawn at (centerX + textRadius, centerY) points towards the center of the segment
+            // We need to rotate by the segment's center angle relative to the default 0 (right), then adjust by 90 degrees
+            // so the text baseline is radial and text flows outward. The SVG default baseline is horizontal.
+            // Rotating the group by `angleForText` and placing the text at `(centerX + textRadius, centerY)` relative to the rotated frame works.
+            textGroup.setAttribute('transform', `rotate(${angleForText}, ${centerX}, ${centerY})`);
+
+            const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            // Position text relative to the rotated group's origin (which is the center)
+            textEl.setAttribute('x', centerX + textRadius); // Position text out along the rotated axis
+            textEl.setAttribute('y', centerY); // Keep at vertical center relative to group's y
+            textEl.classList.add('wheel-text'); // Apply text class
+            textEl.textContent = reward.name;
+
+             // Add outline for readability
+             const textOutline = document.createElementNS("http://www.w3.org/2000/svg", "text");
+             textOutline.setAttribute('x', centerX + textRadius);
+             textOutline.setAttribute('y', centerY);
+             textOutline.classList.add('wheel-text', 'wheel-text-outline'); // Apply outline class
+             textOutline.textContent = reward.name;
+
+            textGroup.appendChild(textOutline);
+            textGroup.appendChild(textEl);
+            wheelSvg.appendChild(textGroup); // Append text groups after paths
+        });
+
+         // Add the static center circle (optional, can be a separate element)
+         const centerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+         centerCircle.setAttribute('cx', centerX);
+         centerCircle.setAttribute('cy', centerY);
+         centerCircle.setAttribute('r', 30); // Radius matching the pin
+         centerCircle.setAttribute('fill', 'none'); // Hide the circle itself
+         centerCircle.setAttribute('stroke', '#eee'); // White border
+         centerCircle.setAttribute('stroke-width', '4');
+         wheelSvg.appendChild(centerCircle); // Add behind the pin
+    }
+
+
+    function calculateSpinResult(weights) {
+        const totalWeight = weights.reduce((sum, w) => sum + w.weight, 0);
+        let random = Math.random() * totalWeight;
+
+        for (let i = 0; i < weights.length; i++) {
+            if (random < weights[i].weight) {
+                return i; // Return index of the winning segment
+            }
+            random -= weights[i].weight;
+        }
+         // Fallback (should not happen if weights > 0)
+        return Math.floor(Math.random() * weights.length);
+    }
+
+    function animateWheel(targetIndex) {
+        const numSegments = spinWheelRewards.length;
+        const degreesPerSegment = 360 / numSegments;
+        // Calculate rotation needed to bring the target segment's *center* to the arrow position (pointing upwards, which is -90 degrees)
+        // Segments are drawn from 0 degrees (right). Segment 0 is from 0-36 deg, center at 18 deg. Segment 1 from 36-72, center at 54 deg etc.
+        // Center of segment 'i' is at angle `startAngle + degreesPerSegment / 2`. The angle is calculated relative to the positive X axis (right) in the drawing code.
+        // The arrow points up, which is -90 degrees (or 270 degrees) relative to the positive X axis.
+        // We want the center of segment `targetIndex` to end up aligned with the arrow.
+        // The current angle of the center of segment `targetIndex` is `targetIndex * degreesPerSegment + degreesPerSegment / 2`.
+        // The desired angle is -90 degrees.
+        // The rotation needed is `(-90) - (targetIndex * degreesPerSegment + degreesPerSegment / 2)`.
+        // We add full rotations to make it spin multiple times.
+        const targetSegmentCenterAngle = targetIndex * degreesPerSegment + degreesPerSegment / 2;
+        let rotationDegrees = -90 - targetSegmentCenterAngle;
+
+        // Add several full rotations for dramatic effect
+        const extraRotations = 5; // Spin 5 full times
+        rotationDegrees += extraRotations * 360;
+
+        console.log(`Spinning to segment ${targetIndex} (${spinWheelRewards[targetIndex].name}). Target rotation: ${rotationDegrees.toFixed(2)}deg`);
+
+        // Apply the rotation
+        wheelSvg.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)'; // Ensure transition is set
+        wheelSvg.style.transform = `rotate(${rotationDegrees}deg)`;
+
+        // Use setTimeout to know when the animation is likely finished
+        // The actual end time might vary slightly depending on browser rendering
+        return new Promise(resolve => {
+            setTimeout(() => {
+                 // Reset transition and adjust transform slightly to handle floating point inaccuracies
+                 wheelSvg.style.transition = 'none';
+                 // Normalize the final rotation to a value between 0 and 360
+                 const normalizedRotation = (rotationDegrees % 360 + 360) % 360;
+                 wheelSvg.style.transform = `rotate(${normalizedRotation}deg)`;
+
+                 resolve(spinWheelRewards[targetIndex]);
+            }, 5000); // Match the CSS transition duration
+        });
+    }
+
+    let cooldownIntervalId = null;
+    function updateSpinUI() {
+         const user = auth.currentUser;
+         const isLoggedIn = user !== null && currentUsername !== null; // Check for username too
+
+         // Hide/Show spin button
+         if (spinBtn) {
+             // Only show if logged in AND on one of the main UI screens (not game/gameover)
+             if (isLoggedIn && (mainMenu.style.display === 'flex' || settingsModal.style.display === 'flex' || profileModal.style.display === 'flex' || inviteModal.style.display === 'flex' || withdrawModal.style.display === 'flex' || infoModal.style.display === 'flex' || withdrawalHistoryModal.style.display === 'flex' || spinWheelModal.style.display === 'flex' || swapModal.style.display === 'flex')) { // Check for flex on all modals
+                  spinBtn.style.display = 'flex';
+             } else {
+                  spinBtn.style.display = 'none'; // Hide in game, game over, login, complete profile
+             }
+             spinBtn.style.pointerEvents = isProcessingAuth ? 'none' : 'auto'; // Disable if auth is processing
+         }
+
+
+         if (!isLoggedIn) {
+             spinsLeftDisplay.textContent = 'Log in to spin';
+             cooldownTimerDisplay.textContent = '';
+             freeSpinBtn.disabled = true;
+             buySpinBtn.disabled = true;
+             spinStatusDisplay.textContent = '';
+             if (cooldownIntervalId) clearInterval(cooldownIntervalId);
+             cooldownIntervalId = null;
+             return;
+         }
+
+         spinsLeftDisplay.textContent = `Spins left: ${spinsLeft}`;
+         buySpinBtn.textContent = `Buy Spin (${spinBuyPrice} Coins)`;
+
+         const now = Date.now();
+         const timeSinceLastSpin = now - (lastSpinTime || 0); // Use 0 if lastSpinTime is null/undefined
+
+         // Logic for FREE SPIN button state
+         if (spinsLeft > 0) {
+              freeSpinBtn.disabled = false;
+              freeSpinBtn.textContent = `Spin Now!`;
+              cooldownTimerDisplay.textContent = '';
+              if (cooldownIntervalId) clearInterval(cooldownIntervalId); // Stop timer if spins are available
+              cooldownIntervalId = null;
+              spinStatusDisplay.textContent = 'Ready to spin!';
+         } else {
+              const timeRemaining = spinCooldownMilliseconds - timeSinceLastSpin;
+              freeSpinBtn.disabled = true;
+              freeSpinBtn.textContent = 'Cooling Down';
+
+             if (timeRemaining > 1000) { // More than 1 second remaining
+                  spinStatusDisplay.textContent = 'Cooldown active';
+
+                  // Start or update the timer
+                  if (!cooldownIntervalId) {
+                       cooldownIntervalId = setInterval(() => {
+                            updateSpinUI(); // Re-run UI update to check timeRemaining
+                       }, 1000);
+                  }
+                 const secondsRemaining = Math.ceil(timeRemaining / 1000);
+                 const hours = Math.floor(secondsRemaining / 3600);
+                 const minutes = Math.floor((secondsRemaining % 3600) / 60);
+                 const seconds = secondsRemaining % 60;
+                 cooldownTimerDisplay.textContent = `Next spin in: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+             } else { // Cooldown finished
+                  spinStatusDisplay.textContent = 'Free spin available!';
+                  cooldownTimerDisplay.textContent = '';
+                  freeSpinBtn.disabled = false;
+                  freeSpinBtn.textContent = 'Get Free Spin!'; // Prompt user to get spin (this click will grant the spin)
+                  if (cooldownIntervalId) clearInterval(cooldownIntervalId);
+                  cooldownIntervalId = null;
+                  // The click handler for freeSpinBtn now handles the logic to grant and then spin
+             }
+         }
+
+
+         // Update Buy Spin button state
+         if (totalCoins >= spinBuyPrice) {
+             buySpinBtn.disabled = false;
+             buySpinBtn.title = ''; // No tooltip needed if enabled
+         } else {
+             buySpinBtn.disabled = true;
+             buySpinBtn.title = `Need ${spinBuyPrice - totalCoins} more coins`;
+         }
+    }
+
+     // --- Event Listeners for Spin Wheel ---
+    spinBtn.addEventListener('click', () => {
+        if (!auth.currentUser || !currentUsername) {
+            showStatusMessage("Log in to use the Spin Wheel.", "error");
+            return;
+        }
+         // Show ad before showing the modal
+         showInterstitialAd(() => {
+              console.log("Ad callback: Showing Spin Wheel modal.");
+              // Hide other modals/views before showing spin wheel
+                settingsModal.style.display = "none";
+                profileModal.style.display = "none";
+                inviteModal.style.display = "none";
+                withdrawModal.style.display = "none";
+                infoModal.style.display = "none";
+                withdrawalHistoryModal.style.display = "none";
+                gameOverMenu.style.display="none";
+                gameCanvas.style.display = "none";
+                googleSignInPanel.style.display = "none";
+                completeProfileModal.style.display = 'none';
+                swapModal.style.display = 'none'; // Hide new modal
+
+              createWheelSegments(); // Draw segments
+              updateSpinUI(); // Update button states and timer
+              spinWheelModal.style.display = 'flex'; // Use flex for Tailwind centering
+              // Hide main menu only if it was visible
+              if (mainMenu.style.display === 'flex') mainMenu.style.display = 'none';
+              topRightStatus.style.display = 'inline-flex'; // Ensure coin status is visible
+
+         });
+    });
+
+    closeSpinWheelBtn.addEventListener('click', () => {
+        spinWheelModal.style.display = 'none';
+        // Reset wheel rotation for next time
+        wheelSvg.style.transition = 'none';
+        wheelSvg.style.transform = 'rotate(0deg)';
+        spinStatusDisplay.textContent = 'Ready to spin!'; // Reset status
+        if (!gameStarted && !gameOver) showMainMenu(); // Go back to menu if not in game
+        if (cooldownIntervalId) clearInterval(cooldownIntervalId); // Stop timer when closing modal
+        cooldownIntervalId = null;
+    });
+
+    freeSpinBtn.addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user || !currentUsername) { // Don't check freeSpinBtn.disabled here, logic moved inside
+            showStatusMessage("Log in to use the Spin Wheel.", "error");
+            return;
+        }
+
+         // Check if cooldown is finished AND user has 0 spins (meaning they clicked "Get Free Spin!")
+        const now = Date.now();
+        const timeSinceLastSpin = now - (lastSpinTime || 0);
+        const timeRemaining = spinCooldownMilliseconds - timeSinceLastSpin;
+
+        if (spinsLeft <= 0 && timeRemaining <= 1000) {
+             // This click *grants* the spin because cooldown is over and they have none
+             freeSpinBtn.disabled = true;
+             freeSpinBtn.textContent = 'Getting Spin...';
+             spinStatusDisplay.textContent = 'Claiming free spin...';
+             console.log("Cooldown finished and 0 spins, attempting to grant a free spin...");
+             await update(ref(db, `users/${user.uid}`), { spinsLeft: 1, lastSpinTime: serverTimestamp() })
+                 .then(() => {
+                     console.log("Free spin granted successfully in DB. Listener will update UI.");
+                      // Listener will update spinsLeft, lastSpinTime, and call updateSpinUI
+                     // The user now has 1 spin, the button should re-enable as "Spin Now!"
+                     showStatusMessage("Free spin claimed! Click 'Spin Now!'", "success", 3000);
+                 })
+                 .catch(e => {
+                     console.error("Error granting free spin in DB:", e);
+                     showStatusMessage("Error claiming free spin. Try again.", "error");
+                     freeSpinBtn.disabled = false; freeSpinBtn.textContent = 'Get Free Spin!'; // Re-enable button if DB fails
+                 });
+             return; // Exit after attempting to grant the spin.
+        }
+
+        // Proceed with spin animation if spinsLeft > 0 (user clicked "Spin Now!")
+        if (spinsLeft > 0) {
+            freeSpinBtn.disabled = true; // Disable during the spin animation
+            buySpinBtn.disabled = true; // Disable buy button during spin
+            spinStatusDisplay.textContent = 'Spinning...';
+            playSound(spinStartSound);
+
+            const winningIndex = calculateSpinResult(spinWheelRewards);
+            console.log("Calculated winning index:", winningIndex, spinWheelRewards[winningIndex]);
+
+            animateWheel(winningIndex).then(async (wonReward) => {
+                console.log("Spin animation finished. Won:", wonReward);
+                playSound(spinWinSound);
+                spinStatusDisplay.textContent = `You won: ${wonReward.name}!`;
+
+                const userRef = ref(db, `users/${user.uid}`);
+                const currentSpins = spinsLeft; // Use local state
+
+                // Use update to decrement spinsLeft and add the reward atomically
+                const updates = {};
+                updates['/spinsLeft'] = (currentSpins > 0 ? currentSpins - 1 : 0); // Decrement spin count if > 0
+                updates['/lastSpinTime'] = serverTimestamp(); // Record spin time
+
+                // Add coins or PKR based on the reward type
+                if (wonReward.type === 'coins') {
+                    updates['/totalCoins'] = totalCoins + wonReward.amount; // Add coins to coin balance
+                } else if (wonReward.type === 'pkr') {
+                    updates['/totalPKR'] = totalPKR + wonReward.amount; // Add PKR to PKR balance
+                }
+
+
+                console.log(`Updating Firebase after spin: Decrement spins, set lastSpinTime, add ${wonReward.amount} ${wonReward.type}.`);
+                await update(userRef, updates)
+                    .then(() => {
+                         console.log(`Spin winnings saved. Won ${wonReward.name}. Spins Left: ${currentSpins > 0 ? currentSpins - 1 : 0}.`);
+                         // The listener will handle updating totalCoins/totalPKR, spinsLeft, lastSpinTime and re-enable buttons via updateSpinUI
+                         showStatusMessage(`Won ${wonReward.name}! Added ${wonReward.amount} ${wonReward.type}.`, "success", 5000);
+                    })
+                    .catch(e => {
+                         console.error("Error saving spin winnings:", e);
+                         showStatusMessage(`Error saving win: ${wonReward.name}. Reward not added.`, "error", 5000);
+                         // Manually re-enable buttons if DB fails and listener doesn't catch it right away
+                         freeSpinBtn.disabled = false; // Or should this wait for cooldown? Let updateSpinUI handle it.
+                         buySpinBtn.disabled = false;
+                    });
+            });
+        } else {
+             // Should not happen if the first check is correct, but as a fallback
+             showStatusMessage("No spins available.", "error", 2000);
+             updateSpinUI();
+        }
+    });
+
+
+    buySpinBtn.addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user || !currentUsername || buySpinBtn.disabled) return;
+
+        if (totalCoins < spinBuyPrice) {
+            showStatusMessage(`Not enough coins. Need ${spinBuyPrice} coins.`, "error", 3000);
+            updateSpinUI();
+            return;
+        }
+
+        buySpinBtn.disabled = true;
+        buySpinBtn.textContent = "Buying...";
+        spinStatusDisplay.textContent = "Processing purchase..."; // Add status text
+        showStatusMessage(`Buying spin for ${spinBuyPrice} coins...`, "info");
+
+        const userRef = ref(db, `users/${user.uid}`);
+
+        // Use update to deduct coins and add a spin atomically
+        const updates = {};
+        updates['/totalCoins'] = totalCoins - spinBuyPrice; // Deduct price
+        updates['/spinsLeft'] = spinsLeft + 1; // Add a spin
+
+        await update(userRef, updates)
+            .then(() => {
+                 console.log(`Spin purchased for ${spinBuyPrice} coins. Coins: -${spinBuyPrice}, Spins Left: ${spinsLeft + 1}.`);
+                 showStatusMessage(`Spin purchased! ${spinBuyPrice} coins deducted.`, "success", 3000);
+                 // The listener will handle updating totalCoins and spinsLeft and updateSpinUI
+            })
+            .catch(e => {
+                 console.error("Error buying spin:", e);
+                 showStatusMessage(`Error buying spin: ${e.message}`, "error", 5000);
+                 // If purchase fails, we might need to manually re-enable buttons if the listener doesn't catch it right away
+            })
+            // Finally block removed - relying on listener to call updateSpinUI for state refresh
+    });
+
+    // --- Swap Modal Logic ---
+    topRightStatus.addEventListener('click', () => {
+         const user = auth.currentUser;
+         if (!user || !currentUsername) {
+             showStatusMessage("Log in & complete profile to swap.", "info");
+             return;
+         }
+         // Hide other modals if any are open, except settings modal which should toggle
+          if (settingsModal.style.display === 'flex') settingsModal.style.display = 'none';
+          if (profileModal.style.display === 'flex') profileModal.style.display = 'none';
+          if (inviteModal.style.display === 'flex') inviteModal.style.display = 'none';
+          if (withdrawModal.style.display === 'flex') withdrawModal.style.display = 'none';
+          if (infoModal.style.display === 'flex') infoModal.style.display = 'none';
+          if (withdrawalHistoryModal.style.display === 'flex') withdrawalHistoryModal.style.display = 'none';
+          if (spinWheelModal.style.display === 'flex') spinWheelModal.style.display = 'none';
+
+         showInterstitialAd(() => {
+            console.log("Ad callback: Showing Swap modal.");
+             updateSwapModalState(); // Ensure UI reflects current balances and button state
+             swapModal.style.display = 'flex';
+         });
+    });
+
+    closeSwapModalBtn.addEventListener('click', () => {
+         swapModal.style.display = 'none';
+         if (!gameStarted && !gameOver) showMainMenu(); // Go back to menu if not in game
+    });
+
+    function updateSwapModalState() {
+         const user = auth.currentUser;
+         const isLoggedInAndProfileComplete = user && currentUsername;
+
+         if (!isLoggedInAndProfileComplete) {
+             if(swapCurrentCoinsSpan) swapCurrentCoinsSpan.textContent = '...';
+             if(swapCurrentPkrSpan) swapCurrentPkrSpan.textContent = '...';
+             if(swapToPkrBtn) {
+                  swapToPkrBtn.disabled = true;
+                  swapToPkrBtn.textContent = 'Log in to Swap';
+                  swapToPkrBtn.title = 'Log in & complete profile to swap.';
+             }
+             return;
+         }
+
+         if(swapCurrentCoinsSpan) swapCurrentCoinsSpan.textContent = totalCoins;
+         if(swapCurrentPkrSpan) swapCurrentPkrSpan.textContent = totalPKR;
+
+        // Calculate the maximum swappable amount in blocks of SWAP_COIN_BLOCK
+         const maxSwappableCoins = Math.floor(totalCoins / SWAP_COIN_BLOCK) * SWAP_COIN_BLOCK;
+         const maxSwappablePKR = (maxSwappableCoins / SWAP_COIN_BLOCK) * SWAP_PKR_BLOCK;
+
+
+         if (swapToPkrBtn) {
+             if (maxSwappableCoins >= SWAP_COIN_BLOCK) {
+                 swapToPkrBtn.disabled = false;
+                 // Changed "PKR" to "Rs"
+                 swapToPkrBtn.textContent = `Swap ${maxSwappableCoins} Coins`; // Show the actual amount being swapped
+                 swapToPkrBtn.title = `Swap ${maxSwappableCoins} Coins for ${maxSwappablePKR} Rs`;
+             } else {
+                 swapToPkrBtn.disabled = true;
+                 swapToPkrBtn.textContent = `Need ${SWAP_COIN_BLOCK} Coins`;
+                 swapToPkrBtn.title = `Need ${SWAP_COIN_BLOCK - totalCoins} more coins to swap.`;
+             }
+         }
+         // Update info text if needed (currently fixed, but could be dynamic)
+         // e.g., swapModal.querySelector('.subtle').textContent = `(Swap amount must be in blocks of ${SWAP_COIN_BLOCK} Coins)`;
+    }
+
+    swapToPkrBtn.addEventListener('click', async () => {
+        const user = auth.currentUser;
+        if (!user || !currentUsername || swapToPkrBtn.disabled) {
+            showStatusMessage("Action not available. Log in?", "error");
+            return;
+        }
+
+         // Recalculate based on current coins just before the transaction
+         const coinsToSwap = Math.floor(totalCoins / SWAP_COIN_BLOCK) * SWAP_COIN_BLOCK;
+         const pkrToAdd = (coinsToSwap / SWAP_COIN_BLOCK) * SWAP_PKR_BLOCK;
+
+        if (coinsToSwap < SWAP_COIN_BLOCK) { // Should be disabled if < block, but double check
+            showStatusMessage(`Not enough coins to swap a block of ${SWAP_COIN_BLOCK}.`, "error", 3000);
+            updateSwapModalState();
+            return;
+        }
+
+        swapToPkrBtn.disabled = true;
+        swapToPkrBtn.textContent = "Processing Swap...";
+        showStatusMessage("Processing swap...", "info");
+
+        const userRef = ref(db, `users/${user.uid}`);
+
+        // Use update to deduct coins and add PKR atomically
+        const updates = {};
+        updates['/totalCoins'] = totalCoins - coinsToSwap; // Deduct calculated amount
+        updates['/totalPKR'] = totalPKR + pkrToAdd; // Add calculated amount
+
+        await update(userRef, updates)
+            .then(() => {
+                 console.log(`Coins swapped. Coins: -${coinsToSwap}, PKR: +${pkrToAdd}.`);
+                 // Changed "PKR" to "Rs"
+                 showStatusMessage(`Successfully swapped ${coinsToSwap} Coins for ${pkrToAdd} Rs!`, "success", 5000);
+                 swapModal.style.display = 'none';
+                 // Listener will update local state and UI (totalCoins, totalPKR)
+            })
+            .catch(e => {
+                 console.error("Error swapping coins:", e);
+                 showStatusMessage(`Swap failed: ${e.message}`, "error", 5000);
+                 swapToPkrBtn.disabled = false; // Re-enable on failure
+                 updateSwapModalState(); // Ensure text is correct
+            });
+    });
+
+
+    // --- Game Engine ---
+    const ctx = gameCanvas.getContext("2d");
+    function resizeCanvas() { gameCanvas.width=window.innerWidth; const bannerHeight=document.getElementById('bannerAdContainer')?.offsetHeight||50; gameCanvas.height=window.innerHeight-bannerHeight; if(gameStarted&&mario){const groundY=gameCanvas.height-50; if(mario.y+mario.height>=groundY-5){mario.y=groundY-mario.height;mario.dy=0;if(mario.isJumping){mario.isJumping=false;canDoubleJump=false;}}} } window.addEventListener("resize", resizeCanvas);
+    const imagesToLoad = { character:"https://i.imgur.com/AbfH2aB.png", background:"https://i.imgur.com/xZpZqGt.png", enemy:"https://i.imgur.com/TsR4WXH.png", coin:"https://i.imgur.com/cMQ9X0d.png", platform:"https://i.imgur.com/06ptzal.png", pkr_icon: "https://i.imgur.com/W96jC2k.png" }; // Added PKR icon
+    const gameImages = {}; let imagesLoadedCount = 0; let totalImagesToLoad = Object.keys(imagesToLoad).length;
+    function checkAllImagesLoaded() { imagesLoadedCount++; console.log(`Image loaded (${imagesLoadedCount}/${totalImagesToLoad})`); if (imagesLoadedCount === totalImagesToLoad) { allImagesLoaded = true; console.log("All images loaded."); if(startBtn) startBtn.disabled = false; if(restartBtn) restartBtn.disabled = false; showStatusMessage("Ready!", "success", 1500); } }
+    console.log("Loading assets..."); if (startBtn) startBtn.disabled = true; if (restartBtn) restartBtn.disabled = true; showStatusMessage("Loading assets...", "info", 5000); for (const key in imagesToLoad) { gameImages[key] = new Image(); gameImages[key].onload = checkAllImagesLoaded; gameImages[key].onerror = () => { console.error(`Failed load: ${key}`); totalImagesToLoad--; showStatusMessage(`Error loading asset: ${key}.`, "error", 5000); if (startBtn) startBtn.disabled = true; if (restartBtn) restartBtn.disabled = true; }; gameImages[key].src = imagesToLoad[key]; }
+    function initGame() { if (!allImagesLoaded) { showStatusMessage("Assets loading...", "info"); return; } console.log("Initializing game..."); resizeCanvas(); bgX = 0; platformX = 0; const groundY = gameCanvas.height - 50; mario = { x: 60, y: groundY - 60, width: 40, height: 60, dy: 0, gravity: 1.6, jumpPower: -22, doubleJumpPower: -18, isJumping: false, onGround: true }; obstacles = []; coins = []; speed = 6; score = 0; gameOver = false; gameStarted = true; lastJumpInputTime = 0; canDoubleJump = false; if(animationFrameId) cancelAnimationFrame(animationFrameId); animationFrameId = null; playBackgroundMusic(); if (whatsappBtn) whatsappBtn.style.display = 'none'; if (spinBtn) spinBtn.style.display = 'none'; topRightStatus.style.display = 'none'; console.log("Game initialized. Starting loop."); gameLoop(); }
+    function drawBackground() { if (!gameImages.background?.complete || gameImages.background.naturalHeight === 0) { ctx.fillStyle = '#60a5fa'; ctx.fillRect(0, 0, gameCanvas.width, gameCanvas.height); return; }; bgX = (bgX - speed * 0.4) % gameImages.background.width; ctx.drawImage(gameImages.background, bgX, 0, gameImages.background.width, gameCanvas.height); ctx.drawImage(gameImages.background, bgX + gameImages.background.width, 0, gameImages.background.width, gameCanvas.height); }
+    function drawPlatform() { if (!gameImages.platform?.complete || gameImages.platform.naturalHeight === 0) { ctx.fillStyle = '#E0A070'; ctx.fillRect(0, gameCanvas.height - 50, gameCanvas.width, 50); return; }; const groundY = gameCanvas.height - 50; platformX = (platformX - speed) % gameImages.platform.width; ctx.drawImage(gameImages.platform, platformX, groundY, gameImages.platform.width, 50); ctx.drawImage(gameImages.platform, platformX + gameImages.platform.width, groundY, gameImages.platform.width, 50); }
+    function drawMario() { if(!mario || !gameImages.character?.complete || gameImages.character.naturalHeight === 0) return; ctx.drawImage(gameImages.character, mario.x, mario.y, mario.width, mario.height); }
+    function drawObstacles() { if (!gameImages.enemy?.complete || gameImages.enemy.naturalHeight === 0) return; for (let i = obstacles.length - 1; i >= 0; i--){ let obs = obstacles[i]; obs.x -= speed; ctx.drawImage(gameImages.enemy, obs.x, obs.y, obs.width, obs.height); if(obs.x + obs.width < 0) obstacles.splice(i, 1); } }
+    function spawnObstacles() { if(gameOver || !gameImages.enemy?.complete || gameImages.enemy.naturalHeight === 0) return; const bMin=350, bMax=650; const dF=Math.max(0.3,1-(score/1000)); const cMin=bMin*dF, cMax=bMax*dF; const dR=Math.max(50,cMax-cMin); const rD=cMin+Math.random()*dR; let lastX=-rD; if(obstacles.length>0) lastX=obstacles[obstacles.length-1].x; if(gameCanvas.width-lastX>rD && obstacles.length<5){ const gY=gameCanvas.height-50; obstacles.push({x:gameCanvas.width+10,y:gY-50,width:50,height:50}); } }
+    function spawnCoins() {
+        if(!gameImages.coin?.complete || gameImages.coin.naturalHeight === 0 || gameOver) return;
+        const spawnChance = 0.014;
+        const maxGroups = 3;
+        if(coins.length < (maxGroups * 2) && Math.random() < spawnChance) {
+            const groundY = gameCanvas.height - 50; let startY; const hChance=Math.random();
+            if(hChance<0.5) startY=groundY-30; else if(hChance<0.85) startY=groundY-100-(Math.random()*40); else startY=groundY-160-(Math.random()*50);
+            let coinCount = Math.floor(Math.random() * 2) + 1;
+            let startX = gameCanvas.width + Math.random() * 150; const spacing = 45;
+            for(let i=0; i<coinCount; i++) coins.push({x:startX+i*spacing,y:startY,width:25,height:25});
+        }
+    }
+    function drawCoinsAndCollect() { if (!gameImages.coin?.complete || gameImages.coin.naturalHeight === 0 || !mario || gameOver) return; for (let i = coins.length - 1; i >= 0; i--) { let c = coins[i]; c.x -= speed; ctx.drawImage(gameImages.coin, c.x - c.width / 2, c.y - c.height / 2, c.width, c.height); if (mario.x < c.x + c.width / 2 && mario.x + mario.width > c.x - c.width / 2 && mario.y < c.y + c.height / 2 && mario.y + mario.height > c.y - c.height / 2) { coins.splice(i, 1); score += 1; playSound(coinSound); } else if (c.x + c.width / 2 < 0) coins.splice(i, 1); } }
+    function applyPhysics() { if(!mario || gameOver) return; mario.dy += mario.gravity; mario.y += mario.dy; const groundY = gameCanvas.height - 50; if (mario.y + mario.height >= groundY) { mario.y = groundY - mario.height; mario.dy = 0; mario.onGround = true; if(mario.isJumping) { mario.isJumping = false; canDoubleJump = false; } } else mario.onGround = false; if (mario.y < 0) { mario.y = 0; mario.dy = 0; } }
+    function checkCollision() { if(!mario || gameOver) return; for(let i = obstacles.length - 1; i >= 0; i--){ let obs = obstacles[i]; const mX=mario.x+5, mY=mario.y+5, mW=mario.width-10, mH=mario.height-10; const oX=obs.x+5, oY=obs.y+5, oW=obs.width-10, oH=obs.height-10; if (mX < oX + oW && mX + mW > oX && mY < oY + oH && mY + mH > oY) { console.log("Collision!"); gameOver = true; stopBackgroundMusic(); break; } } }
+    function jump() { if(!gameStarted || gameOver || !mario) return; const now = Date.now(); if (mario.isJumping && !mario.onGround && canDoubleJump && (now - lastJumpInputTime < doubleJumpWindow)) { mario.dy = mario.doubleJumpPower; canDoubleJump = false; lastJumpInputTime = 0; console.log("Double Jump!"); playSound(jumpSound); } else if (mario.onGround) { mario.dy = mario.jumpPower; mario.isJumping = true; mario.onGround = false; canDoubleJump = true; lastJumpInputTime = now; console.log("First Jump!"); playSound(jumpSound); } }
+    function gameLoop() {
+        if(gameOver || !gameStarted) { if (gameOver) handleGameOver(); return; }
+        applyPhysics(); checkCollision(); if (gameOver) { handleGameOver(); return; }
+        spawnObstacles(); spawnCoins();
+        ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
+        drawBackground(); drawPlatform(); drawObstacles(); drawCoinsAndCollect(); drawMario();
+        ctx.fillStyle="#FFF";
+        ctx.font="18px 'Press Start 2P'"; // Slightly larger score font
+        ctx.textAlign="left"; ctx.textBaseline="top"; ctx.shadowColor='rgba(0,0,0,0.8)'; ctx.shadowBlur=5; ctx.shadowOffsetX=2; ctx.shadowOffsetY=2;
+        ctx.fillText("Score: " + score, 25, 25); // Draw score with more padding
+        ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetX=0; ctx.shadowOffsetY=0;
+        animationFrameId = requestAnimationFrame(gameLoop);
+    }
+    function handleGameOver() {
+        console.log(`Game Over! Score: ${score}`); gameStarted = false; gameOver = true;
+        if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
+        const user = auth.currentUser;
+        if (user && score > 0 && currentUsername) {
+            const userRef = ref(db, `users/${user.uid}`);
+            // Atomic update for score - only affects totalCoins
+            update(userRef, { totalCoins: totalCoins + score })
+            .then(() => console.log(`Score submitted. Local state might update soon.`))
+            .catch(e => { console.error("Error saving score:", e); showStatusMessage("Error saving score.", "error"); });
+        } else if (user && score === 0) { console.log("Score 0, no save needed."); }
+        else { console.log("Guest or incomplete profile, score not saved."); }
+        showGameOverMenu(); console.log("Game Over Menu shown.");
+        // Show fixed buttons again
+        if (whatsappBtn) whatsappBtn.style.display = 'flex';
+        if (spinBtn) spinBtn.style.display = 'flex';
+         topRightStatus.style.display = 'none'; // Ensure coin status is hidden on game over
+    }
+
+    // --- Game Control Buttons ---
+    startBtn.addEventListener("click", () => { if (!allImagesLoaded) { showStatusMessage("Assets loading...", "info"); return; } if (gameStarted) return; console.log("Start clicked."); showInterstitialAd(() => { console.log("Ad callback: Starting game."); mainMenu.style.display = "none"; gameCanvas.style.display = 'block'; initGame(); }); });
+    restartBtn.addEventListener("click", () => { if (!allImagesLoaded) { showStatusMessage("Assets error.", "error"); showMainMenu(); return; } if (gameStarted) return; console.log("Restart clicked."); console.log("Direct restart..."); gameOverMenu.style.display = "none"; gameCanvas.style.display = 'block'; initGame(); });
+    backMenuBtn.addEventListener("click", () => { console.log("Back to Menu clicked."); showInterstitialAd(() => { console.log("Ad callback: Showing main menu."); showMainMenu(); }); });
+
+    // --- Jump Listeners ---
+    document.addEventListener("keydown", (e) => { if ((e.code === "Space" || e.code === "ArrowUp") && gameStarted && !gameOver) { e.preventDefault(); jump(); } });
+    gameCanvas.addEventListener("click", (e) => { if (gameStarted && !gameOver) { e.preventDefault(); jump(); } });
+    gameCanvas.addEventListener("touchstart", (e) => { if (gameStarted && !gameOver) { e.preventDefault(); jump(); } }, { passive: false });
+
+    // --- Initial Setup on Page Load ---
+    function initializeAppUI() {
+        console.log("Initializing UI (Google Sign-In)...");
+        // Ensure all main sections and modals are hidden initially
+        googleSignInPanel.style.display = "none"; // Start hidden, auth listener will show if needed
+        mainMenu.style.display = "none";
+        gameCanvas.style.display = "none";
+        gameOverMenu.style.display = "none";
+        completeProfileModal.style.display = 'none';
+        settingsModal.style.display = "none";
+        profileModal.style.display = "none";
+        inviteModal.style.display = "none";
+        withdrawModal.style.display = "none";
+        infoModal.style.display = "none";
+        withdrawalHistoryModal.style.display = "none";
+        spinWheelModal.style.display = 'none';
+        swapModal.style.display = 'none'; // Hide new modal
+        topRightStatus.style.display = 'none'; // Hide coin status
+
+        // Hide fixed buttons initially
+        if (whatsappBtn) whatsappBtn.style.display = 'none';
+        if (spinBtn) spinBtn.style.display = 'none';
+
+        setAuthProcessing(false); updateSoundButton(); updateInviteLinkDisplay(); updateCoinPkrDisplay(); // Reset display visually
+        if (startBtn) startBtn.disabled = true; if (restartBtn) restartBtn.disabled = true;
+
+         // The onAuthStateChanged listener will determine which screen to show first
+         // If user is not logged in, it will show googleSignInPanel.style.display = "flex";
+         // If logged in but no profile, it will show completeProfileModal.style.display = "flex";
+         // If logged in and profile complete, it will show showMainMenu();
+         // We don't show any panel here explicitly, the auth listener handles the initial view.
+
+        console.log("Initial UI setup complete. Waiting for auth state...");
+    }
+    initializeAppUI();
+
+  </script>
+
+  <!-- Social Bar Script -->
+  <script type='text/javascript' src='//pl26479822.profitableratecpm.com/11/f3/83/11f3830187c378aedebef88b0bcd83a0.js'></script>
+
+</body>
+</html>
